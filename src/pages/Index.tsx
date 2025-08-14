@@ -16,21 +16,38 @@ const Index = () => {
       <SEOStructuredData pageType="website" />
       <Header />
       <main>
+        {/* Hero Section - Convert */}
         <section id="home">
           <EnhancedHeroSection />
         </section>
-        <section id="services">
-          <EnhancedServicesSection />
-        </section>
-        <section id="process">
-          <EnhancedProcessSection />
-        </section>
-        <section id="about">
+        
+        {/* Trust & Credibility - Learn About Us */}
+        <section id="trust" className="bg-background">
           <TrustSection />
         </section>
-        <EnhancedClientLogos />
-        <EnhancedConversionCTA />
-        <section id="contact">
+        
+        {/* Services Overview - Understand Services */}
+        <section id="services" className="bg-gradient-elegant">
+          <EnhancedServicesSection />
+        </section>
+        
+        {/* Client Logos - Build Trust */}
+        <section className="bg-background">
+          <EnhancedClientLogos />
+        </section>
+        
+        {/* Process - Understand How */}
+        <section id="process" className="bg-muted/30">
+          <EnhancedProcessSection />
+        </section>
+        
+        {/* Conversion CTA - Convert */}
+        <section className="bg-gradient-primary">
+          <EnhancedConversionCTA />
+        </section>
+        
+        {/* Contact - Connect */}
+        <section id="contact" className="bg-background">
           <EnhancedContactSection />
         </section>
       </main>

@@ -54,7 +54,7 @@ const Header = () => {
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-b border-border/50 shadow-sm">
+    <header className="fixed top-0 left-0 right-0 z-[60] bg-white/95 backdrop-blur-xl border-b border-border/50 shadow-sm">
       {/* Modern Contact Bar */}
       <div className="bg-gradient-to-r from-primary to-primary/90 text-white">
         <div className="max-w-7xl mx-auto px-4 py-2">
@@ -191,26 +191,26 @@ const Header = () => {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="lg:hidden absolute top-full left-0 right-0 bg-white/95 backdrop-blur-xl border-b border-border/50 shadow-lg">
+          <div className="lg:hidden absolute top-full left-0 right-0 bg-white/95 backdrop-blur-xl border-b border-border/50 shadow-lg z-[70]">
             <div className="max-w-7xl mx-auto px-4 py-6">
               <div className="space-y-4">
                 {navigationLinks.map((link) => (
                   <a
                     key={link.name}
                     href={link.href}
-                    className="block text-foreground hover:text-primary transition-colors duration-200 font-medium py-2"
+                    className="block text-foreground hover:text-primary transition-colors duration-200 font-medium py-3 text-lg touch-manipulation"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {link.name}
                   </a>
                 ))}
                 <div className="pt-4 border-t border-border/30 space-y-3">
-                  <Button variant="outline" size="sm" className="w-full">
+                  <Button variant="outline" size="sm" className="w-full h-12 text-base touch-manipulation">
                     Calculator
                   </Button>
                   <Button 
                     size="sm" 
-                    className="w-full bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-white"
+                    className="w-full h-12 text-base bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-white touch-manipulation"
                   >
                     Free Consultation
                   </Button>
