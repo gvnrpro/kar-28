@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import ServiceScrollHandler from '@/components/ServiceScrollHandler';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -253,6 +254,7 @@ const Services = () => {
 
   return (
     <div className="min-h-screen">
+      <ServiceScrollHandler />
       <Header />
       
       {/* Hero Section */}
@@ -360,7 +362,7 @@ const Services = () => {
             </TabsContent>
             
             <TabsContent value="formation">
-              <div className="grid lg:grid-cols-2 gap-8">
+              <div id="company-formation" className="grid lg:grid-cols-2 gap-8">
                 {serviceCategories.formation.map((service, index) => (
                   <motion.div
                     key={index}

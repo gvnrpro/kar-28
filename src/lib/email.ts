@@ -4,7 +4,7 @@ import emailjs from '@emailjs/browser';
 const EMAIL_CONFIG = {
   serviceId: 'service_kar_business',
   templateId: 'template_contact_form',
-  publicKey: 'your_public_key_here', // Replace with actual EmailJS public key
+  publicKey: 'RLSoXjLQ8OmQAhQQB', // Production EmailJS public key for KAR Business Services
 };
 
 interface ContactFormData {

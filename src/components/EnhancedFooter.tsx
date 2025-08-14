@@ -1,19 +1,37 @@
-import { Building2, Phone, Mail, MapPin, Globe, Facebook, Twitter, Linkedin, Instagram, Send } from 'lucide-react';
+import { Building2, Phone, Mail, MapPin, Globe, Facebook, Twitter, Linkedin, Instagram, Send, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { useState } from 'react';
 import { CONTACT_INFO } from '@/lib/contact-info';
+import { sendNewsletterSubscription } from '@/lib/email';
+import { useToast } from '@/hooks/use-toast';
 
 const EnhancedFooter = () => {
   const [email, setEmail] = useState('');
-  const [isSubscribed, setIsSubscribed] = useState(false);
+  const [isSubscribing, setIsSubscribing] = useState(false);
+  const { toast } = useToast();
 
-  const handleNewsletterSubmit = (e: React.FormEvent) => {
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) {
-      setIsSubscribed(true);
+    if (!email) return;
+
+    setIsSubscribing(true);
+    try {
+      await sendNewsletterSubscription(email);
+      toast({
+        title: "Successfully Subscribed!",
+        description: "Thank you for subscribing to our newsletter.",
+      });
       setEmail('');
-      setTimeout(() => setIsSubscribed(false), 3000);
+    } catch (error) {
+      toast({
+        title: "Subscription Failed",
+        description: "Please try again or contact us directly.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubscribing(false);
     }
   };
 
@@ -54,10 +72,10 @@ const EnhancedFooter = () => {
   ];
 
   const socialLinks = [
-    { icon: Facebook, href: '#', name: 'Facebook', color: 'hover:text-blue-600' },
-    { icon: Twitter, href: '#', name: 'Twitter', color: 'hover:text-blue-400' },
-    { icon: Linkedin, href: '#', name: 'LinkedIn', color: 'hover:text-blue-700' },
-    { icon: Instagram, href: '#', name: 'Instagram', color: 'hover:text-pink-600' }
+    { icon: Facebook, href: CONTACT_INFO.social.facebook, name: 'Facebook', color: 'hover:text-blue-600' },
+    { icon: Twitter, href: CONTACT_INFO.social.twitter, name: 'Twitter', color: 'hover:text-blue-400' },
+    { icon: Linkedin, href: CONTACT_INFO.social.linkedin, name: 'LinkedIn', color: 'hover:text-blue-700' },
+    { icon: Instagram, href: CONTACT_INFO.social.instagram, name: 'Instagram', color: 'hover:text-pink-600' }
   ];
 
   return (
@@ -93,17 +111,12 @@ const EnhancedFooter = () => {
                   />
                   <Button
                     type="submit"
-                    className="bg-secondary hover:bg-secondary/90 text-secondary-foreground font-semibold px-8"
-                    disabled={isSubscribed}
+                    className="bg-secondary hover:bg-secondary/90 text-secondary-foreground font-semibold px-8 group"
+                    disabled={isSubscribing}
                   >
-                    {isSubscribed ? (
-                      'Subscribed!'
-                    ) : (
-                      <>
-                        <Send className="h-4 w-4 mr-2" />
-                        Subscribe
-                      </>
-                    )}
+                    <Send className="h-4 w-4 mr-2" />
+                    {isSubscribing ? 'Subscribing...' : 'Subscribe'}
+                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </form>
               </div>
