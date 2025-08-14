@@ -10,7 +10,6 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Calculator as CalculatorIcon, Download, ArrowRight, CheckCircle } from 'lucide-react';
-
 const Calculator = () => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
@@ -22,60 +21,134 @@ const Calculator = () => {
     additionalServices: []
   });
   const [calculatedCost, setCalculatedCost] = useState(null);
-
-  const businessTypes = [
-    { value: 'llc', label: 'Limited Liability Company (LLC)', baseCost: 15000 },
-    { value: 'sole-proprietorship', label: 'Sole Proprietorship', baseCost: 8000 },
-    { value: 'partnership', label: 'Partnership', baseCost: 12000 },
-    { value: 'branch', label: 'Branch Office', baseCost: 20000 },
-    { value: 'representative', label: 'Representative Office', baseCost: 18000 }
-  ];
-
-  const jurisdictions = [
-    { value: 'mainland', label: 'Dubai Mainland', multiplier: 1.0 },
-    { value: 'dafza', label: 'Dubai Airport Free Zone', multiplier: 1.2 },
-    { value: 'jafza', label: 'Jebel Ali Free Zone', multiplier: 1.3 },
-    { value: 'dmcc', label: 'Dubai Multi Commodities Centre', multiplier: 1.4 },
-    { value: 'difc', label: 'Dubai International Financial Centre', multiplier: 1.8 },
-    { value: 'adgm', label: 'Abu Dhabi Global Market', multiplier: 2.0 }
-  ];
-
-  const activities = [
-    { value: 'trading', label: 'Trading Activities', cost: 2000 },
-    { value: 'consulting', label: 'Consulting Services', cost: 1500 },
-    { value: 'it', label: 'IT & Software Development', cost: 3000 },
-    { value: 'construction', label: 'Construction & Engineering', cost: 4000 },
-    { value: 'healthcare', label: 'Healthcare Services', cost: 5000 },
-    { value: 'education', label: 'Education & Training', cost: 3500 },
-    { value: 'food', label: 'Food & Beverage', cost: 4500 },
-    { value: 'real-estate', label: 'Real Estate', cost: 3000 }
-  ];
-
-  const officeTypes = [
-    { value: 'virtual', label: 'Virtual Office', cost: 8000 },
-    { value: 'shared', label: 'Shared Office Space', cost: 15000 },
-    { value: 'private', label: 'Private Office', cost: 30000 },
-    { value: 'warehouse', label: 'Warehouse Facility', cost: 50000 }
-  ];
-
-  const additionalServices = [
-    { value: 'bank-account', label: 'Bank Account Opening', cost: 3000 },
-    { value: 'golden-visa', label: 'Golden Visa Processing', cost: 8500 },
-    { value: 'accounting', label: 'Accounting Services (Annual)', cost: 12000 },
-    { value: 'audit', label: 'Audit Services', cost: 8000 },
-    { value: 'vat', label: 'VAT Registration', cost: 2500 },
-    { value: 'trademark', label: 'Trademark Registration', cost: 4000 }
-  ];
-
+  const businessTypes = [{
+    value: 'llc',
+    label: 'Limited Liability Company (LLC)',
+    baseCost: 15000
+  }, {
+    value: 'sole-proprietorship',
+    label: 'Sole Proprietorship',
+    baseCost: 8000
+  }, {
+    value: 'partnership',
+    label: 'Partnership',
+    baseCost: 12000
+  }, {
+    value: 'branch',
+    label: 'Branch Office',
+    baseCost: 20000
+  }, {
+    value: 'representative',
+    label: 'Representative Office',
+    baseCost: 18000
+  }];
+  const jurisdictions = [{
+    value: 'mainland',
+    label: 'Dubai Mainland',
+    multiplier: 1.0
+  }, {
+    value: 'dafza',
+    label: 'Dubai Airport Free Zone',
+    multiplier: 1.2
+  }, {
+    value: 'jafza',
+    label: 'Jebel Ali Free Zone',
+    multiplier: 1.3
+  }, {
+    value: 'dmcc',
+    label: 'Dubai Multi Commodities Centre',
+    multiplier: 1.4
+  }, {
+    value: 'difc',
+    label: 'Dubai International Financial Centre',
+    multiplier: 1.8
+  }, {
+    value: 'adgm',
+    label: 'Abu Dhabi Global Market',
+    multiplier: 2.0
+  }];
+  const activities = [{
+    value: 'trading',
+    label: 'Trading Activities',
+    cost: 2000
+  }, {
+    value: 'consulting',
+    label: 'Consulting Services',
+    cost: 1500
+  }, {
+    value: 'it',
+    label: 'IT & Software Development',
+    cost: 3000
+  }, {
+    value: 'construction',
+    label: 'Construction & Engineering',
+    cost: 4000
+  }, {
+    value: 'healthcare',
+    label: 'Healthcare Services',
+    cost: 5000
+  }, {
+    value: 'education',
+    label: 'Education & Training',
+    cost: 3500
+  }, {
+    value: 'food',
+    label: 'Food & Beverage',
+    cost: 4500
+  }, {
+    value: 'real-estate',
+    label: 'Real Estate',
+    cost: 3000
+  }];
+  const officeTypes = [{
+    value: 'virtual',
+    label: 'Virtual Office',
+    cost: 8000
+  }, {
+    value: 'shared',
+    label: 'Shared Office Space',
+    cost: 15000
+  }, {
+    value: 'private',
+    label: 'Private Office',
+    cost: 30000
+  }, {
+    value: 'warehouse',
+    label: 'Warehouse Facility',
+    cost: 50000
+  }];
+  const additionalServices = [{
+    value: 'bank-account',
+    label: 'Bank Account Opening',
+    cost: 3000
+  }, {
+    value: 'golden-visa',
+    label: 'Golden Visa Processing',
+    cost: 8500
+  }, {
+    value: 'accounting',
+    label: 'Accounting Services (Annual)',
+    cost: 12000
+  }, {
+    value: 'audit',
+    label: 'Audit Services',
+    cost: 8000
+  }, {
+    value: 'vat',
+    label: 'VAT Registration',
+    cost: 2500
+  }, {
+    value: 'trademark',
+    label: 'Trademark Registration',
+    cost: 4000
+  }];
   const handleNext = () => {
     if (step < 4) setStep(step + 1);
     if (step === 4) calculateCost();
   };
-
   const handleBack = () => {
     if (step > 1) setStep(step - 1);
   };
-
   const calculateCost = () => {
     let totalCost = 0;
 
@@ -115,11 +188,9 @@ const Calculator = () => {
         totalCost += service.cost;
       }
     });
-
     setCalculatedCost(totalCost);
     setStep(5);
   };
-
   const handleActivityChange = (activityValue, checked) => {
     if (checked) {
       setFormData(prev => ({
@@ -133,7 +204,6 @@ const Calculator = () => {
       }));
     }
   };
-
   const handleServiceChange = (serviceValue, checked) => {
     if (checked) {
       setFormData(prev => ({
@@ -147,7 +217,6 @@ const Calculator = () => {
       }));
     }
   };
-
   const resetCalculator = () => {
     setStep(1);
     setFormData({
@@ -160,21 +229,22 @@ const Calculator = () => {
     });
     setCalculatedCost(null);
   };
-
-  return (
-    <div className="min-h-screen">
+  return <div className="min-h-screen">
       <Header />
       
       {/* Hero Section */}
       <section className="relative py-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-hero opacity-90"></div>
         <div className="relative z-10 container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center text-white max-w-4xl mx-auto"
-          >
+          <motion.div initial={{
+          opacity: 0,
+          y: 30
+        }} animate={{
+          opacity: 1,
+          y: 0
+        }} transition={{
+          duration: 0.8
+        }} className="text-center text-white max-w-4xl mx-0 py-[32px]">
             <CalculatorIcon className="h-16 w-16 mx-auto mb-6" />
             <h1 className="text-5xl md:text-6xl font-heading font-bold mb-6">
               Business Setup Cost Calculator
@@ -193,36 +263,16 @@ const Calculator = () => {
             {/* Progress Bar */}
             <div className="mb-12">
               <div className="flex items-center justify-center mb-4">
-                {[1, 2, 3, 4, 5].map((number) => (
-                  <div key={number} className="flex items-center">
-                    <div
-                      className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold ${
-                        number <= step
-                          ? 'bg-primary text-white'
-                          : 'bg-muted text-muted-foreground'
-                      }`}
-                    >
+                {[1, 2, 3, 4, 5].map(number => <div key={number} className="flex items-center">
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold ${number <= step ? 'bg-primary text-white' : 'bg-muted text-muted-foreground'}`}>
                       {number < step ? <CheckCircle className="h-5 w-5" /> : number}
                     </div>
-                    {number < 5 && (
-                      <div
-                        className={`w-16 h-1 mx-2 ${
-                          number < step ? 'bg-primary' : 'bg-muted'
-                        }`}
-                      />
-                    )}
-                  </div>
-                ))}
+                    {number < 5 && <div className={`w-16 h-1 mx-2 ${number < step ? 'bg-primary' : 'bg-muted'}`} />}
+                  </div>)}
               </div>
               <div className="text-center">
                 <span className="text-muted-foreground">
-                  Step {step} of 5: {
-                    step === 1 ? 'Business Type' :
-                    step === 2 ? 'Jurisdiction & Activities' :
-                    step === 3 ? 'Visas & Office' :
-                    step === 4 ? 'Additional Services' :
-                    'Your Quote'
-                  }
+                  Step {step} of 5: {step === 1 ? 'Business Type' : step === 2 ? 'Jurisdiction & Activities' : step === 3 ? 'Visas & Office' : step === 4 ? 'Additional Services' : 'Your Quote'}
                 </span>
               </div>
             </div>
@@ -233,75 +283,71 @@ const Calculator = () => {
                   {step === 5 ? 'Your Business Setup Quote' : 'Configure Your Business'}
                 </CardTitle>
                 <CardDescription className="text-lg">
-                  {step === 5 
-                    ? 'Here\'s your estimated cost breakdown'
-                    : 'Answer a few questions to get your personalized quote'
-                  }
+                  {step === 5 ? 'Here\'s your estimated cost breakdown' : 'Answer a few questions to get your personalized quote'}
                 </CardDescription>
               </CardHeader>
 
               <CardContent className="space-y-8">
                 {/* Step 1: Business Type */}
-                {step === 1 && (
-                  <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="space-y-6"
-                  >
+                {step === 1 && <motion.div initial={{
+                opacity: 0,
+                x: 20
+              }} animate={{
+                opacity: 1,
+                x: 0
+              }} transition={{
+                duration: 0.5
+              }} className="space-y-6">
                     <div>
                       <Label className="text-xl font-semibold mb-4 block">
                         What type of business do you want to establish?
                       </Label>
-                      <Select
-                        value={formData.businessType}
-                        onValueChange={(value) => setFormData(prev => ({ ...prev, businessType: value }))}
-                      >
+                      <Select value={formData.businessType} onValueChange={value => setFormData(prev => ({
+                    ...prev,
+                    businessType: value
+                  }))}>
                         <SelectTrigger className="w-full h-14 text-lg">
                           <SelectValue placeholder="Select your business type" />
                         </SelectTrigger>
                         <SelectContent>
-                          {businessTypes.map((type) => (
-                            <SelectItem key={type.value} value={type.value} className="py-3">
+                          {businessTypes.map(type => <SelectItem key={type.value} value={type.value} className="py-3">
                               <div className="flex justify-between items-center w-full">
                                 <span>{type.label}</span>
                                 <Badge variant="secondary">
                                   Starting from AED {type.baseCost.toLocaleString()}
                                 </Badge>
                               </div>
-                            </SelectItem>
-                          ))}
+                            </SelectItem>)}
                         </SelectContent>
                       </Select>
                     </div>
-                  </motion.div>
-                )}
+                  </motion.div>}
 
                 {/* Step 2: Jurisdiction & Activities */}
-                {step === 2 && (
-                  <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="space-y-8"
-                  >
+                {step === 2 && <motion.div initial={{
+                opacity: 0,
+                x: 20
+              }} animate={{
+                opacity: 1,
+                x: 0
+              }} transition={{
+                duration: 0.5
+              }} className="space-y-8">
                     <div>
                       <Label className="text-xl font-semibold mb-4 block">
                         Choose your jurisdiction
                       </Label>
-                      <Select
-                        value={formData.jurisdiction}
-                        onValueChange={(value) => setFormData(prev => ({ ...prev, jurisdiction: value }))}
-                      >
+                      <Select value={formData.jurisdiction} onValueChange={value => setFormData(prev => ({
+                    ...prev,
+                    jurisdiction: value
+                  }))}>
                         <SelectTrigger className="w-full h-14 text-lg">
                           <SelectValue placeholder="Select jurisdiction" />
                         </SelectTrigger>
                         <SelectContent>
-                          {jurisdictions.map((jurisdiction) => (
-                            <SelectItem key={jurisdiction.value} value={jurisdiction.value} className="py-3">
+                          {jurisdictions.map(jurisdiction => <SelectItem key={jurisdiction.value} value={jurisdiction.value} className="py-3">
                               {jurisdiction.label}
-                            </SelectItem>
-                          ))}
+                            </SelectItem>)}
                         </SelectContent>
                       </Select>
                     </div>
@@ -311,47 +357,37 @@ const Calculator = () => {
                         Select your business activities (you can choose multiple)
                       </Label>
                       <div className="grid md:grid-cols-2 gap-4">
-                        {activities.map((activity) => (
-                          <div key={activity.value} className="flex items-center space-x-3 p-4 border rounded-lg hover:bg-muted/50">
-                            <Checkbox
-                              id={activity.value}
-                              checked={formData.activities.includes(activity.value)}
-                              onCheckedChange={(checked) => handleActivityChange(activity.value, checked)}
-                            />
+                        {activities.map(activity => <div key={activity.value} className="flex items-center space-x-3 p-4 border rounded-lg hover:bg-muted/50">
+                            <Checkbox id={activity.value} checked={formData.activities.includes(activity.value)} onCheckedChange={checked => handleActivityChange(activity.value, checked)} />
                             <Label htmlFor={activity.value} className="flex-1 cursor-pointer">
                               <div className="flex justify-between items-center">
                                 <span>{activity.label}</span>
                                 <Badge variant="outline">+AED {activity.cost.toLocaleString()}</Badge>
                               </div>
                             </Label>
-                          </div>
-                        ))}
+                          </div>)}
                       </div>
                     </div>
-                  </motion.div>
-                )}
+                  </motion.div>}
 
                 {/* Step 3: Visas & Office */}
-                {step === 3 && (
-                  <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="space-y-8"
-                  >
+                {step === 3 && <motion.div initial={{
+                opacity: 0,
+                x: 20
+              }} animate={{
+                opacity: 1,
+                x: 0
+              }} transition={{
+                duration: 0.5
+              }} className="space-y-8">
                     <div>
                       <Label className="text-xl font-semibold mb-4 block">
                         How many employment visas do you need?
                       </Label>
-                      <Input
-                        type="number"
-                        min="0"
-                        max="50"
-                        value={formData.visaCount}
-                        onChange={(e) => setFormData(prev => ({ ...prev, visaCount: parseInt(e.target.value) || 0 }))}
-                        className="w-full h-14 text-lg"
-                        placeholder="Enter number of visas"
-                      />
+                      <Input type="number" min="0" max="50" value={formData.visaCount} onChange={e => setFormData(prev => ({
+                    ...prev,
+                    visaCount: parseInt(e.target.value) || 0
+                  }))} className="w-full h-14 text-lg" placeholder="Enter number of visas" />
                       <p className="text-muted-foreground mt-2">
                         Each employment visa costs approximately AED 3,500
                       </p>
@@ -361,71 +397,65 @@ const Calculator = () => {
                       <Label className="text-xl font-semibold mb-4 block">
                         What type of office space do you need?
                       </Label>
-                      <Select
-                        value={formData.officeType}
-                        onValueChange={(value) => setFormData(prev => ({ ...prev, officeType: value }))}
-                      >
+                      <Select value={formData.officeType} onValueChange={value => setFormData(prev => ({
+                    ...prev,
+                    officeType: value
+                  }))}>
                         <SelectTrigger className="w-full h-14 text-lg">
                           <SelectValue placeholder="Select office type" />
                         </SelectTrigger>
                         <SelectContent>
-                          {officeTypes.map((office) => (
-                            <SelectItem key={office.value} value={office.value} className="py-3">
+                          {officeTypes.map(office => <SelectItem key={office.value} value={office.value} className="py-3">
                               <div className="flex justify-between items-center w-full">
                                 <span>{office.label}</span>
                                 <Badge variant="secondary">
                                   AED {office.cost.toLocaleString()}/year
                                 </Badge>
                               </div>
-                            </SelectItem>
-                          ))}
+                            </SelectItem>)}
                         </SelectContent>
                       </Select>
                     </div>
-                  </motion.div>
-                )}
+                  </motion.div>}
 
                 {/* Step 4: Additional Services */}
-                {step === 4 && (
-                  <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="space-y-6"
-                  >
+                {step === 4 && <motion.div initial={{
+                opacity: 0,
+                x: 20
+              }} animate={{
+                opacity: 1,
+                x: 0
+              }} transition={{
+                duration: 0.5
+              }} className="space-y-6">
                     <div>
                       <Label className="text-xl font-semibold mb-4 block">
                         Additional services (optional)
                       </Label>
                       <div className="grid md:grid-cols-2 gap-4">
-                        {additionalServices.map((service) => (
-                          <div key={service.value} className="flex items-center space-x-3 p-4 border rounded-lg hover:bg-muted/50">
-                            <Checkbox
-                              id={service.value}
-                              checked={formData.additionalServices.includes(service.value)}
-                              onCheckedChange={(checked) => handleServiceChange(service.value, checked)}
-                            />
+                        {additionalServices.map(service => <div key={service.value} className="flex items-center space-x-3 p-4 border rounded-lg hover:bg-muted/50">
+                            <Checkbox id={service.value} checked={formData.additionalServices.includes(service.value)} onCheckedChange={checked => handleServiceChange(service.value, checked)} />
                             <Label htmlFor={service.value} className="flex-1 cursor-pointer">
                               <div className="flex justify-between items-center">
                                 <span>{service.label}</span>
                                 <Badge variant="outline">+AED {service.cost.toLocaleString()}</Badge>
                               </div>
                             </Label>
-                          </div>
-                        ))}
+                          </div>)}
                       </div>
                     </div>
-                  </motion.div>
-                )}
+                  </motion.div>}
 
                 {/* Step 5: Results */}
-                {step === 5 && calculatedCost && (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5 }}
-                    className="text-center space-y-8"
-                  >
+                {step === 5 && calculatedCost && <motion.div initial={{
+                opacity: 0,
+                scale: 0.9
+              }} animate={{
+                opacity: 1,
+                scale: 1
+              }} transition={{
+                duration: 0.5
+              }} className="text-center space-y-8">
                     <div className="bg-gradient-primary text-white p-8 rounded-xl">
                       <h3 className="text-2xl font-heading font-bold mb-4">Estimated Total Cost</h3>
                       <div className="text-6xl font-heading font-bold mb-2">
@@ -458,34 +488,18 @@ const Calculator = () => {
                         <li>• Basic legal compliance and setup guidance</li>
                       </ul>
                     </div>
-                  </motion.div>
-                )}
+                  </motion.div>}
 
                 {/* Navigation Buttons */}
-                {step < 5 && (
-                  <div className="flex justify-between pt-6">
-                    <Button
-                      variant="outline"
-                      onClick={handleBack}
-                      disabled={step === 1}
-                      className="px-8"
-                    >
+                {step < 5 && <div className="flex justify-between pt-6">
+                    <Button variant="outline" onClick={handleBack} disabled={step === 1} className="px-8">
                       Back
                     </Button>
-                    <Button
-                      onClick={handleNext}
-                      disabled={
-                        (step === 1 && !formData.businessType) ||
-                        (step === 2 && (!formData.jurisdiction || formData.activities.length === 0)) ||
-                        (step === 3 && !formData.officeType)
-                      }
-                      className="px-8 group"
-                    >
+                    <Button onClick={handleNext} disabled={step === 1 && !formData.businessType || step === 2 && (!formData.jurisdiction || formData.activities.length === 0) || step === 3 && !formData.officeType} className="px-8 group">
                       {step === 4 ? 'Calculate Cost' : 'Next'}
                       <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                     </Button>
-                  </div>
-                )}
+                  </div>}
               </CardContent>
             </Card>
           </div>
@@ -493,8 +507,6 @@ const Calculator = () => {
       </section>
 
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default Calculator;
