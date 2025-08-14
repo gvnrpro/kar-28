@@ -668,7 +668,7 @@ return (
               </motion.div>
             )}
 
-            {/* Navigation Buttons */}
+            {/* Navigatio Buttons */}
             {step < 5 && (
               <div className="flex justify-between pt-6">
                 <Button 
