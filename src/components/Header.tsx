@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Menu, X, Phone, Mail, MapPin, ArrowRight } from 'lucide-react';
 import {
@@ -8,82 +8,78 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
-import { Link } from 'react-router-dom';
 import karLogoNew from '/lovable-uploads/25d1452b-bc38-4aac-b8fb-bcf6eceb773d.png';
-import { CONTACT_INFO } from '@/lib/contact-info';
-import { cn } from '@/lib/utils';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const navigationLinks = [
+    { name: 'Home', href: '/' },
+    { name: 'About', href: '/about' },
+    { name: 'Business Setup', href: '/business-setup' },
+    { name: 'Golden Visa', href: '/golden-visa' },
+    { name: 'Calculator', href: '/calculator' },
+    { name: 'Contact', href: '/contact' }
+  ];
 
   const serviceCategories = [
     {
       title: 'Formation & Setup',
+      description: 'Complete company setup UAE and business formation services',
       services: [
-        { name: 'Company Formation', href: '/services#company-formation' },
-        { name: 'PRO Services', href: '/services#pro-services' },
-        { name: 'Bank Account Opening', href: '/services#bank-account-opening' }
+        { name: 'Company Formation in UAE', href: '/services#company-formation' },
+        { name: 'PRO Services Dubai', href: '/services#pro-services' },
+        { name: 'Bank Account Opening', href: '/services#bank-account' }
       ]
     },
     {
       title: 'Compliance & Tax',
+      description: 'VAT registration UAE and compliance solutions',
       services: [
-        { name: 'VAT & Tax Compliance', href: '/services#vat-registration' },
-        { name: 'Accounting & Bookkeeping', href: '/services#accounting-bookkeeping' },
+        { name: 'VAT Registration UAE', href: '/services#vat-registration' },
+        { name: 'Accounting Services', href: '/services#accounting' },
         { name: 'License Renewal', href: '/services#license-renewal' }
       ]
     },
     {
       title: 'Specialized Services',
+      description: 'Expert visa processing and business solutions',
       services: [
-        { name: 'Visa & Immigration', href: '/services#visa-services' },
+        { name: 'UAE Visa Processing', href: '/services#visa-services' },
         { name: 'Document Attestation', href: '/services#document-attestation' },
-        { name: 'Trademark Registration', href: '/services#trademark-registration' }
+        { name: 'Trademark Registration', href: '/services#trademark' }
       ]
     }
   ];
 
-  const otherLinks = [
-    { name: 'About Us', href: '/about' },
-    { name: 'Business Setup', href: '/business-setup' },
-    { name: 'Golden Visa', href: '/golden-visa' },
-  ];
-
   return (
-    <header className={cn(
-      "fixed top-0 left-0 right-0 z-[60] transition-all duration-300",
-      isScrolled ? 'bg-white/95 backdrop-blur-lg shadow-md' : 'bg-transparent'
-    )}>
-      
-      {/* Top Contact Bar */}
-      <div className="bg-primary text-white transition-all duration-300">
+    <header className="fixed top-0 left-0 right-0 z-[60] bg-white/95 backdrop-blur-xl border-b border-border/50 shadow-sm">
+      {/* Modern Contact Bar */}
+      <div className="bg-gradient-to-r from-primary to-primary/90 text-white">
         <div className="max-w-7xl mx-auto px-4 py-2">
           <div className="flex items-center justify-between text-xs">
             <div className="hidden md:flex items-center space-x-6">
-              <a href={`tel:${CONTACT_INFO.contact.phone.primary}`} className="flex items-center space-x-2 hover:text-secondary transition-colors">
+              <div className="flex items-center space-x-2 hover:text-secondary transition-colors">
                 <Phone className="h-3 w-3" />
-                <span className="font-medium">{CONTACT_INFO.contact.phone.primary}</span>
-              </a>
-              <a href={`mailto:${CONTACT_INFO.contact.email.primary}`} className="flex items-center space-x-2 hover:text-secondary transition-colors">
+                <span className="font-medium">+971 4 269 8181</span>
+              </div>
+              <div className="flex items-center space-x-2 hover:text-secondary transition-colors">
                 <Mail className="h-3 w-3" />
-                <span>{CONTACT_INFO.contact.email.primary}</span>
-              </a>
+                <span>info@karuae.com</span>
+              </div>
+              <div className="flex items-center space-x-2 hover:text-secondary transition-colors">
+                <MapPin className="h-3 w-3" />
+                <span>Dubai, UAE</span>
+              </div>
             </div>
-            <div className="flex items-center space-x-4 text-xs font-medium">
-              <span>🇦🇪 Est. 1993</span>
+            <div className="flex items-center space-x-4 text-xs">
+              <span className="flex items-center space-x-1">
+                <span>🇦🇪</span>
+                <span className="font-medium">Est. 1992</span>
+              </span>
               <div className="hidden sm:block h-3 w-px bg-white/30"></div>
-              <span className="hidden sm:inline">30+ Years of Excellence</span>
+              <span className="hidden sm:inline font-medium">30+ Years Excellence</span>
             </div>
           </div>
         </div>
@@ -92,43 +88,54 @@ const Header = () => {
       {/* Main Navigation */}
       <nav className="max-w-7xl mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
-          <Link to="/" className="flex-shrink-0">
+          {/* Logo */}
+          <div className="flex items-center group">
             <img 
               src={karLogoNew} 
               alt="KAR Business Services Logo" 
-              className="h-12 w-auto object-contain"
+              className="h-10 w-auto object-contain group-hover:scale-105 transition-transform duration-300"
             />
-          </Link>
+          </div>
 
           {/* Desktop Navigation */}
           <NavigationMenu className="hidden lg:flex">
-            <NavigationMenuList>
+            <NavigationMenuList className="flex items-center space-x-1">
               <NavigationMenuItem>
-                <Link to="/">
-                  <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), isScrolled ? 'text-foreground' : 'text-white', 'bg-transparent')}>
-                    Home
-                  </NavigationMenuLink>
-                </Link>
+                <NavigationMenuLink 
+                  href="/" 
+                  className="px-4 py-2 text-sm font-medium text-foreground hover:text-primary hover:bg-accent rounded-lg transition-all duration-200"
+                >
+                  Home
+                </NavigationMenuLink>
               </NavigationMenuItem>
-
+              
               <NavigationMenuItem>
-                <NavigationMenuTrigger className={cn(isScrolled ? 'text-foreground' : 'text-white', 'bg-transparent')}>
+                <NavigationMenuTrigger className="px-4 py-2 text-sm font-medium text-foreground hover:text-primary data-[state=open]:bg-accent rounded-lg">
                   Services
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <div className="w-[600px] p-6">
+                  <div className="w-[800px] p-6 bg-white/95 backdrop-blur-xl border border-border/50 rounded-xl shadow-xl">
                     <div className="grid grid-cols-3 gap-6">
-                      {serviceCategories.map((category) => (
-                        <div key={category.title} className="space-y-3">
-                          <h4 className="font-semibold text-primary">{category.title}</h4>
+                      {serviceCategories.map((category, index) => (
+                        <div key={index} className="space-y-4">
+                          <h4 className="font-semibold text-primary text-sm">
+                            {category.title}
+                          </h4>
+                          <p className="text-xs text-muted-foreground leading-relaxed">
+                            {category.description}
+                          </p>
                           <ul className="space-y-2">
-                            {category.services.map((service) => (
-                              <li key={service.name}>
-                                <Link to={service.href} className="block">
-                                  <NavigationMenuLink className="text-sm text-foreground hover:text-primary transition-colors p-1 rounded-md hover:bg-accent group">
-                                    <span className="flex items-center justify-between">{service.name} <ArrowRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" /></span>
-                                  </NavigationMenuLink>
-                                </Link>
+                            {category.services.map((service, serviceIndex) => (
+                              <li key={serviceIndex}>
+                                <NavigationMenuLink
+                                  href={service.href}
+                                  className="block text-xs text-foreground hover:text-primary transition-colors p-2 rounded-lg hover:bg-accent group"
+                                >
+                                  <span className="flex items-center justify-between">
+                                    {service.name}
+                                    <ArrowRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                  </span>
+                                </NavigationMenuLink>
                               </li>
                             ))}
                           </ul>
@@ -138,56 +145,81 @@ const Header = () => {
                   </div>
                 </NavigationMenuContent>
               </NavigationMenuItem>
-
-              {otherLinks.map((link) => (
+              
+              {navigationLinks.slice(2).map((link) => (
                 <NavigationMenuItem key={link.name}>
-                   <Link to={link.href}>
-                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), isScrolled ? 'text-foreground' : 'text-white', 'bg-transparent')}>
-                      {link.name}
-                    </NavigationMenuLink>
-                  </Link>
+                  <NavigationMenuLink 
+                    href={link.href}
+                    className="px-4 py-2 text-sm font-medium text-foreground hover:text-primary hover:bg-accent rounded-lg transition-all duration-200"
+                  >
+                    {link.name}
+                  </NavigationMenuLink>
                 </NavigationMenuItem>
               ))}
             </NavigationMenuList>
           </NavigationMenu>
 
+          {/* Desktop CTA */}
           <div className="hidden lg:flex items-center space-x-3">
-            <Button asChild variant="ghost" className={cn('font-semibold', isScrolled ? 'text-foreground' : 'text-white')}>
-              <Link to="/calculator">Calculator</Link>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="text-sm font-medium border-primary/20 hover:border-primary hover:bg-primary/5"
+            >
+              Calculator
             </Button>
-            <Button asChild className="bg-gradient-to-r from-secondary to-orange-400 text-white shadow-lg hover:shadow-xl transition-all duration-300 font-semibold group">
-              <Link to="/contact">Free Consultation <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" /></Link>
+            <Button 
+              size="sm" 
+              className="bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-white shadow-lg hover:shadow-xl transition-all duration-300 text-sm font-medium"
+            >
+              Free Consult
             </Button>
           </div>
 
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className={cn("lg:hidden p-2 rounded-lg", isScrolled ? 'text-foreground' : 'text-white')}
-            aria-label="Toggle menu"
+            className="lg:hidden p-2 rounded-lg hover:bg-accent transition-colors"
           >
-            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            {isMenuOpen ? (
+              <X className="h-5 w-5 text-foreground" />
+            ) : (
+              <Menu className="h-5 w-5 text-foreground" />
+            )}
           </button>
         </div>
-      </nav>
 
-      {/* Mobile Menu */}
-      {isMenuOpen && (
-        <div className="lg:hidden absolute top-full left-0 right-0 bg-white shadow-lg z-[70] animate-accordion-down">
-          <div className="max-w-7xl mx-auto px-4 py-6 space-y-2">
-            {[...navigationLinks, {name: 'Contact', href: '/contact'}].map((link) => (
-              <Link key={link.name} to={link.href} className="block text-foreground hover:text-primary font-semibold py-3 text-lg" onClick={() => setIsMenuOpen(false)}>
-                {link.name}
-              </Link>
-            ))}
-             <div className="pt-4 border-t border-border/30">
-               <Button asChild className="w-full h-12 text-base bg-gradient-to-r from-secondary to-orange-400 text-white">
-                 <Link to="/calculator">Cost Calculator</Link>
-              </Button>
-             </div>
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <div className="lg:hidden absolute top-full left-0 right-0 bg-white/95 backdrop-blur-xl border-b border-border/50 shadow-lg z-[70]">
+            <div className="max-w-7xl mx-auto px-4 py-6">
+              <div className="space-y-4">
+                {navigationLinks.map((link) => (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    className="block text-foreground hover:text-primary transition-colors duration-200 font-medium py-3 text-lg touch-manipulation"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {link.name}
+                  </a>
+                ))}
+                <div className="pt-4 border-t border-border/30 space-y-3">
+                  <Button variant="outline" size="sm" className="w-full h-12 text-base touch-manipulation">
+                    Calculator
+                  </Button>
+                  <Button 
+                    size="sm" 
+                    className="w-full h-12 text-base bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-white touch-manipulation"
+                  >
+                    Free Consultation
+                  </Button>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </nav>
     </header>
   );
 };
