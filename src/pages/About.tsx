@@ -4,23 +4,7 @@ import Header from '@/components/Header';
 import EnhancedFooter from '@/components/EnhancedFooter';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { useAnimatedCounter } from '@/hooks/useAnimatedCounter';
 import { Users, Award, Clock, Globe, ArrowRight, Target, Briefcase } from 'lucide-react';
-
-const StatCard = ({ icon: Icon, target, label, suffix = '' }: { icon: React.ElementType, target: number, label: string, suffix?: string }) => {
-  const { count, ref } = useAnimatedCounter(target);
-  return (
-    <div ref={ref} className="text-center p-6 bg-card rounded-xl border hover:shadow-lg transition-all duration-300">
-      <Icon className="h-10 w-10 md:h-12 md:w-12 mx-auto mb-4 text-primary" />
-      <div className="text-3xl md:text-5xl font-heading font-bold text-primary mb-2">
-        {count}{suffix}
-      </div>
-      <div className="text-sm font-body text-muted-foreground">
-        {label}
-      </div>
-    </div>
-  );
-};
 
 const About = () => {
   const timeline = [
@@ -36,10 +20,10 @@ const About = () => {
   ];
 
   const stats = [
-    { icon: Clock, target: 30, label: "Years of Excellence", suffix: "+" },
-    { icon: Users, target: 500, label: "Happy Clients", suffix: "+" },
-    { icon: Award, target: 1200, label: "Licenses Processed", suffix: "+" },
-    { icon: Globe, target: 5, label: "Languages Supported", suffix: "+" }
+    { icon: Clock, value: "30+", label: "Years of Excellence" },
+    { icon: Users, value: "500+", label: "Happy Clients" },
+    { icon: Award, value: "1200+", label: "Licenses Processed" },
+    { icon: Globe, value: "5+", label: "Languages Supported" }
   ];
 
   return (
@@ -63,8 +47,17 @@ const About = () => {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 max-w-6xl mx-auto">
             {stats.map((stat, index) => (
-              <motion.div key={index} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: index * 0.1 }}>
-                <StatCard {...stat} />
+              <motion.div 
+                key={index} 
+                initial={{ opacity: 0, y: 20 }} 
+                whileInView={{ opacity: 1, y: 0 }} 
+                viewport={{ once: true }} 
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="text-center p-6 bg-card rounded-xl border hover:shadow-lg transition-all duration-300"
+              >
+                <stat.icon className="h-10 w-10 md:h-12 md:w-12 mx-auto mb-4 text-primary" />
+                <div className="text-3xl md:text-5xl font-heading font-bold text-primary mb-2">{stat.value}</div>
+                <div className="text-sm font-body text-muted-foreground">{stat.label}</div>
               </motion.div>
             ))}
           </div>
@@ -97,7 +90,7 @@ const About = () => {
         </div>
       </section>
 
-      {/* --- REVISED TIMELINE SECTION FOR MOBILE --- */}
+      {/* Timeline Section */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16 md:mb-20">
@@ -105,19 +98,15 @@ const About = () => {
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">Key milestones in our three decades of unwavering commitment.</p>
           </div>
           <div className="relative max-w-4xl mx-auto">
-            {/* The vertical connecting line */}
             <div className="absolute left-4 md:left-1/2 top-0 h-full w-0.5 bg-border md:-translate-x-1/2"></div>
             {timeline.map((item, index) => (
-              <motion.div key={index} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="mb-12">
-                <div className="flex md:items-center flex-col md:flex-row">
-                  {/* Left Side (for md and up) */}
-                  <div className={`w-full md:w-1/2 ${index % 2 === 0 ? 'md:pr-8 md:text-right' : 'md:order-3 md:pl-8 md:text-left'}`}></div>
-                  {/* Dot */}
-                  <div className="w-8 h-8 md:w-10 md:h-10 bg-primary rounded-full border-4 border-background shadow-lg z-10 flex-shrink-0 absolute left-4 md:left-1/2 -translate-x-1/2"></div>
-                  {/* Right Side / Content for mobile */}
-                  <div className={`w-full md:w-1/2 pl-12 md:pl-0 ${index % 2 === 0 ? 'md:order-3 md:pl-8' : 'md:pr-8'}`}>
+              <motion.div key={index} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="relative pl-12 md:pl-0 mb-12">
+                <div className="md:flex md:items-center" style={{ flexDirection: index % 2 === 0 ? 'row-reverse' : 'row' }}>
+                  <div className="md:w-1/2"></div>
+                  <div className="absolute md:relative w-8 h-8 md:w-10 md:h-10 bg-primary rounded-full border-4 border-background shadow-lg z-10 left-4 md:left-1/2 top-0 md:top-auto -translate-x-1/2"></div>
+                  <div className="md:w-1/2">
                     <motion.div initial={{ opacity: 0, x: index % 2 === 0 ? 50 : -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-                      <div className="bg-card p-6 rounded-xl border shadow-sm hover:shadow-lg transition-shadow duration-300">
+                      <div className={`bg-card p-6 rounded-xl border shadow-sm hover:shadow-lg transition-shadow duration-300 ${index % 2 === 0 ? 'md:ml-8' : 'md:mr-8'}`}>
                         <Badge variant="secondary" className="mb-3 text-primary font-semibold">{item.year}</Badge>
                         <h3 className="text-xl md:text-2xl font-heading font-bold mb-3">{item.title}</h3>
                         <p className="text-muted-foreground leading-relaxed">{item.description}</p>
@@ -150,4 +139,3 @@ const About = () => {
 };
 
 export default About;
-
