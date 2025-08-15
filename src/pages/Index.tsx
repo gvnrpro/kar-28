@@ -9,11 +9,12 @@ import EnhancedContactSection from '@/components/EnhancedContactSection';
 import WhatsAppButton from '@/components/WhatsAppButton';
 import EnhancedFooter from '@/components/EnhancedFooter';
 import SEOStructuredData from '@/components/SEOStructuredData';
-import { MetaTags } from '@/components/MetaTags';
+import { MetaTags } from '@/components/MetaTags'; // Correctly importing the component
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
+      {/* SEO Meta Tags for the Homepage */}
       <MetaTags
         title="KAR Business Services | Expert Business Setup in Dubai, UAE"
         description="Your trusted partner for company formation, PRO services, and Golden Visas in Dubai. With over 30 years of experience, we make your UAE business journey seamless."
