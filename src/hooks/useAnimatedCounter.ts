@@ -1,4 +1,3 @@
-// src/hooks/useAnimatedCounter.ts
 import { useState, useEffect, useRef } from 'react';
 import { animate } from 'framer-motion';
 
@@ -8,6 +7,7 @@ export const useAnimatedCounter = (target: number, duration: number = 2) => {
 
   useEffect(() => {
     const element = ref.current;
+    if (!element) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -19,23 +19,19 @@ export const useAnimatedCounter = (target: number, duration: number = 2) => {
               setCount(Math.round(value));
             }
           });
-          // Stop observing after animation starts
+          // Stop observing after animation starts to prevent re-triggering
           observer.disconnect();
           
           return () => controls.stop();
         }
       },
-      { threshold: 0.5 }
+      { threshold: 0.1 } // Start animation a bit earlier
     );
 
-    if (element) {
-      observer.observe(element);
-    }
+    observer.observe(element);
 
     return () => {
-      if (element) {
-        observer.unobserve(element);
-      }
+      observer.unobserve(element);
     };
   }, [target, duration]);
 
