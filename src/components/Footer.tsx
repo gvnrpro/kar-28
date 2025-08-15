@@ -36,8 +36,7 @@ const Footer = () => {
     {
       icon: MapPin,
       title: 'Visit Our Office',
-      content: '11 34A St - Hor Al Anz - Dubai
-Hor Al Anz, Dubai',
+      content: '11 34A St - Hor Al Anz, Dubai',
       link: 'https://maps.app.goo.gl/kCh1DDWQazVarJFA8?g_st=iwb',
       external: true
     },
