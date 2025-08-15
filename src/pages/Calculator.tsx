@@ -1,405 +1,274 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+
+// UI Components from shadcn/ui
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
-import { Calculator as CalculatorIcon, ArrowRight, CheckCircle, Send, RotateCcw } from 'lucide-react';
+
+// Your App Components
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+
+// Icons from lucide-react
+import {
+  ArrowRight, CheckCircle, Send, PartyPopper, Loader2,
+  Building, User, Users, Globe, Briefcase, ShoppingCart,
+  Code, Banknote, Star, Book, Computer
+} from 'lucide-react';
+
+// --- DATA WITH ICONS ---
+// We've moved the data outside the component for better organization.
+// Each item now has an 'icon' property.
+
+const businessTypes = [
+  { value: 'llc', label: 'Limited Liability Company', icon: <Building className="h-6 w-6 text-primary" /> },
+  { value: 'sole-proprietorship', label: 'Sole Proprietorship', icon: <User className="h-6 w-6 text-primary" /> },
+  { value: 'partnership', label: 'Partnership', icon: <Users className="h-6 w-6 text-primary" /> },
+  { value: 'branch', label: 'Branch Office', icon: <Globe className="h-6 w-6 text-primary" /> },
+];
+
+const jurisdictions = [
+  { value: 'mainland', label: 'Dubai Mainland' },
+  { value: 'dafza', label: 'Dubai Airport Free Zone' },
+  { value: 'jafza', label: 'Jebel Ali Free Zone' },
+];
+
+const activities = [
+  { value: 'trading', label: 'Trading Activities', icon: <ShoppingCart className="h-5 w-5 mr-2" /> },
+  { value: 'consulting', label: 'Consulting Services', icon: <Briefcase className="h-5 w-5 mr-2" /> },
+  { value: 'it', label: 'IT & Software Development', icon: <Code className="h-5 w-5 mr-2" /> },
+];
+
+const officeTypes = [
+  { value: 'virtual', label: 'Virtual Office', icon: <Computer className="h-6 w-6 text-primary" /> },
+  { value: 'shared', label: 'Shared Office Space', icon: <Users className="h-6 w-6 text-primary" /> },
+  { value: 'private', label: 'Private Office', icon: <Briefcase className="h-6 w-6 text-primary" /> },
+];
+
+const additionalServices = [
+  { value: 'bank-account', label: 'Bank Account Opening', icon: <Banknote className="h-5 w-5 mr-2" /> },
+  { value: 'golden-visa', label: 'Golden Visa Processing', icon: <Star className="h-5 w-5 mr-2" /> },
+  { value: 'accounting', label: 'Accounting Services', icon: <Book className="h-5 w-5 mr-2" /> },
+];
+
+// --- MAIN COMPONENT ---
 
 const Calculator = () => {
+  const TOTAL_STEPS = 5;
   const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState({
-    businessType: '',
-    jurisdiction: '',
-    activities: [],
-    visaCount: 0,
-    officeType: '',
-    additionalServices: []
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [formData, setFormData] = useState(() => {
+    const savedData = typeof window !== 'undefined' ? localStorage.getItem('businessFormData') : null;
+    const initialData = {
+      businessType: '', jurisdiction: '', activities: [],
+      visaCount: 0, officeType: '', additionalServices: []
+    };
+    return savedData ? JSON.parse(savedData) : initialData;
   });
 
-  // --- Data without pricing information ---
-  const businessTypes = [
-    { value: 'llc', label: 'Limited Liability Company (LLC)' },
-    { value: 'sole-proprietorship', label: 'Sole Proprietorship' },
-    { value: 'partnership', label: 'Partnership' },
-    { value: 'branch', label: 'Branch Office' },
-    { value: 'representative', label: 'Representative Office' },
-  ];
+  const [contactDetails, setContactDetails] = useState({ name: '', email: '', phone: '' });
 
-  const jurisdictions = [
-    { value: 'mainland', label: 'Dubai Mainland' },
-    { value: 'dafza', label: 'Dubai Airport Free Zone' },
-    { value: 'jafza', label: 'Jebel Ali Free Zone' },
-    { value: 'dmcc', label: 'Dubai Multi Commodities Centre' },
-    { value: 'difc', label: 'Dubai International Financial Centre' },
-    { value: 'adgm', label: 'Abu Dhabi Global Market' },
-  ];
+  useEffect(() => {
+    localStorage.setItem('businessFormData', JSON.stringify(formData));
+  }, [formData]);
 
-  const activities = [
-    { value: 'trading', label: 'Trading Activities' },
-    { value: 'consulting', label: 'Consulting Services' },
-    { value: 'it', label: 'IT & Software Development' },
-    { value: 'construction', label: 'Construction & Engineering' },
-    { value: 'healthcare', label: 'Healthcare Services' },
-    { value: 'education', label: 'Education & Training' },
-    { value: 'food', label: 'Food & Beverage' },
-    { value: 'real-estate', label: 'Real Estate' },
-  ];
+  const handleNext = () => step < TOTAL_STEPS && setStep(step + 1);
+  const handleBack = () => step > 1 && setStep(step - 1);
 
-  const officeTypes = [
-    { value: 'virtual', label: 'Virtual Office' },
-    { value: 'shared', label: 'Shared Office Space' },
-    { value: 'private', label: 'Private Office' },
-    { value: 'warehouse', label: 'Warehouse Facility' },
-  ];
-
-  const additionalServices = [
-    { value: 'bank-account', label: 'Bank Account Opening' },
-    { value: 'golden-visa', label: 'Golden Visa Processing' },
-    { value: 'accounting', label: 'Accounting Services (Annual)' },
-    { value: 'audit', label: 'Audit Services' },
-    { value: 'vat', label: 'VAT Registration' },
-    { value: 'trademark', label: 'Trademark Registration' },
-  ];
-
-  // --- Handler Functions ---
-  const handleNext = () => {
-    if (step < 5) setStep(step + 1);
-  };
-
-  const handleBack = () => {
-    if (step > 1) setStep(step - 1);
-  };
-
-  const handleActivityChange = (activityValue, checked) => {
+  const handleCheckboxChange = (group, value) => {
     setFormData(prev => ({
       ...prev,
-      activities: checked
-        ? [...prev.activities, activityValue]
-        : prev.activities.filter(a => a !== activityValue)
+      [group]: prev[group].includes(value)
+        ? prev[group].filter(item => item !== value)
+        : [...prev[group], value]
     }));
-  };
-
-  const handleServiceChange = (serviceValue, checked) => {
-    setFormData(prev => ({
-      ...prev,
-      additionalServices: checked
-        ? [...prev.additionalServices, serviceValue]
-        : prev.additionalServices.filter(s => s !== serviceValue)
-    }));
-  };
-
-  const resetCalculator = () => {
-    setStep(1);
-    setFormData({
-      businessType: '',
-      jurisdiction: '',
-      activities: [],
-      visaCount: 0,
-      officeType: '',
-      additionalServices: []
-    });
   };
   
-  // --- Helper function to get the label from a value ---
-  const getLabel = (arr, value) => arr.find(item => item.value === value)?.label || 'N/A';
+  const handleContactChange = (e) => {
+    setContactDetails(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    const fullLeadData = {
+      ...contactDetails,
+      ...formData,
+      form_name: 'business-quote-request', // Ensure this matches the form's name attribute
+    };
+    
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(fullLeadData).toString(),
+    })
+    .then(() => {
+      setIsSubmitted(true);
+      localStorage.removeItem('businessFormData');
+    })
+    .catch((error) => {
+      alert('An error occurred. Please try again.');
+      console.error(error);
+    })
+    .finally(() => setIsLoading(false));
+  };
+  
+  if (isSubmitted) {
+    return (
+      <div className="min-h-screen bg-background flex flex-col">
+        <Header />
+        <main className="flex-grow flex items-center justify-center text-center p-4">
+            <motion.div
+                initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
+                className="bg-muted/30 p-10 rounded-lg shadow-lg max-w-lg"
+            >
+                <PartyPopper className="h-16 w-16 mx-auto text-primary mb-6" />
+                <h1 className="text-3xl font-bold font-heading mb-4">Thank You!</h1>
+                <p className="text-lg text-muted-foreground">
+                    Your request has been sent. Our team will review your choices and email you a personalized quote shortly.
+                </p>
+            </motion.div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background">
       <Header />
       
-      {/* Hero Section */}
-      <section className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-hero opacity-90"></div>
-        <div className="relative z-10 container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center text-white max-w-4xl mx-0 py-[32px]"
-          >
-            <CalculatorIcon className="h-16 w-16 mx-auto mb-6" />
-            <h1 className="text-5xl md:text-6xl font-heading font-bold mb-6">
-              Business Setup Configurator
-            </h1>
-            <p className="text-xl md:text-2xl font-body text-white/90 leading-relaxed">
-              Configure your ideal business setup and get a personalized quote from our experts.
-            </p>
-          </motion.div>
-        </div>
+      <section className="text-center py-16 px-4">
+        <h1 className="text-4xl md:text-5xl font-bold font-heading mb-4">
+          Let's Build Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Dream Business</span> in the UAE.
+        </h1>
+        <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+          Answer a few simple questions, and our experts will craft a personalized, no-obligation quote just for you.
+        </p>
       </section>
 
-      {/* Calculator Section */}
-      <section className="py-20 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            {/* Progress Bar */}
-            <div className="mb-12">
-              <div className="flex items-center justify-center mb-4">
-                {[1, 2, 3, 4, 5].map(number => (
-                  <div key={number} className="flex items-center">
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold ${number <= step ? 'bg-primary text-white' : 'bg-muted text-muted-foreground'}`}>
-                      {number < step ? <CheckCircle className="h-5 w-5" /> : number}
-                    </div>
-                    {number < 5 && <div className={`w-16 h-1 mx-2 ${number < step ? 'bg-primary' : 'bg-muted'}`} />}
-                  </div>
-                ))}
-              </div>
-              <div className="text-center">
-                <span className="text-muted-foreground">
-                  Step {step} of 5: {
-                    step === 1 ? 'Business Type' :
-                    step === 2 ? 'Jurisdiction & Activities' :
-                    step === 3 ? 'Visas & Office' :
-                    step === 4 ? 'Additional Services' : 'Summary & Next Steps'
-                  }
-                </span>
-              </div>
-            </div>
-
-            <Card className="border-2">
-              <CardHeader className="text-center">
-                <CardTitle className="text-3xl font-heading">
-                  {step === 5 ? 'Your Configuration Summary' : 'Configure Your Business'}
-                </CardTitle>
-                <CardDescription className="text-lg">
-                  {step === 5 ? "Review your selections below and submit to get a personalized quote." : "Answer a few questions to build your business setup plan."}
-                </CardDescription>
-              </CardHeader>
-
-              <CardContent className="space-y-8">
-                {/* Step 1: Business Type */}
-                {step === 1 && (
-                  <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="space-y-6"
-                  >
-                    <div>
-                      <Label className="text-xl font-semibold mb-4 block">
-                        What type of business do you want to establish?
-                      </Label>
-                      <Select
-                        value={formData.businessType}
-                        onValueChange={value => setFormData(prev => ({ ...prev, businessType: value }))}
-                      >
-                        <SelectTrigger className="w-full h-14 text-lg">
-                          <SelectValue placeholder="Select your business type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {businessTypes.map(type => (
-                            <SelectItem key={type.value} value={type.value} className="py-3 text-base">
-                              {type.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </motion.div>
-                )}
-
-                {/* Step 2: Jurisdiction & Activities */}
-                {step === 2 && (
-                  <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="space-y-8"
-                  >
-                    <div>
-                      <Label className="text-xl font-semibold mb-4 block">Choose your jurisdiction</Label>
-                      <Select
-                        value={formData.jurisdiction}
-                        onValueChange={value => setFormData(prev => ({ ...prev, jurisdiction: value }))}
-                      >
-                        <SelectTrigger className="w-full h-14 text-lg">
-                          <SelectValue placeholder="Select jurisdiction" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {jurisdictions.map(jurisdiction => (
-                            <SelectItem key={jurisdiction.value} value={jurisdiction.value} className="py-3 text-base">
-                              {jurisdiction.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    <div>
-                      <Label className="text-xl font-semibold mb-4 block">Select your business activities (you can choose multiple)</Label>
-                      <div className="grid md:grid-cols-2 gap-4">
-                        {activities.map(activity => (
-                          <div key={activity.value} className="flex items-center space-x-3 p-4 border rounded-lg hover:bg-muted/50">
-                            <Checkbox
-                              id={activity.value}
-                              checked={formData.activities.includes(activity.value)}
-                              onCheckedChange={checked => handleActivityChange(activity.value, checked)}
-                            />
-                            <Label htmlFor={activity.value} className="flex-1 cursor-pointer text-base">
-                              {activity.label}
-                            </Label>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-
-                {/* Step 3: Visas & Office */}
-                {step === 3 && (
-                  <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="space-y-8"
-                  >
-                    <div>
-                      <Label className="text-xl font-semibold mb-4 block">How many employment visas do you need?</Label>
-                      <Input
-                        type="number"
-                        min="0"
-                        max="50"
-                        value={formData.visaCount}
-                        onChange={e => setFormData(prev => ({ ...prev, visaCount: parseInt(e.target.value) || 0 }))}
-                        className="w-full h-14 text-lg"
-                        placeholder="Enter number of visas"
-                      />
-                    </div>
-
-                    <div>
-                      <Label className="text-xl font-semibold mb-4 block">What type of office space do you need?</Label>
-                      <Select
-                        value={formData.officeType}
-                        onValueChange={value => setFormData(prev => ({ ...prev, officeType: value }))}
-                      >
-                        <SelectTrigger className="w-full h-14 text-lg">
-                          <SelectValue placeholder="Select office type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {officeTypes.map(office => (
-                            <SelectItem key={office.value} value={office.value} className="py-3 text-base">
-                              {office.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </motion.div>
-                )}
-
-                {/* Step 4: Additional Services */}
-                {step === 4 && (
-                  <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="space-y-6"
-                  >
-                    <div>
-                      <Label className="text-xl font-semibold mb-4 block">Additional services (optional)</Label>
-                      <div className="grid md:grid-cols-2 gap-4">
-                        {additionalServices.map(service => (
-                          <div key={service.value} className="flex items-center space-x-3 p-4 border rounded-lg hover:bg-muted/50">
-                            <Checkbox
-                              id={service.value}
-                              checked={formData.additionalServices.includes(service.value)}
-                              onCheckedChange={checked => handleServiceChange(service.value, checked)}
-                            />
-                            <Label htmlFor={service.value} className="flex-1 cursor-pointer text-base">
-                              {service.label}
-                            </Label>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-
-                {/* Step 5: Summary */}
-                {step === 5 && (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5 }}
-                    className="space-y-8"
-                  >
-                    <div className="text-left bg-muted/50 p-6 rounded-xl space-y-4">
-                      <h4 className="text-xl font-semibold mb-4 border-b pb-2">Your Selections:</h4>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 text-lg">
-                        <p><strong>Business Type:</strong> {getLabel(businessTypes, formData.businessType)}</p>
-                        <p><strong>Jurisdiction:</strong> {getLabel(jurisdictions, formData.jurisdiction)}</p>
-                        <p><strong>Visas Required:</strong> {formData.visaCount}</p>
-                        <p><strong>Office Type:</strong> {getLabel(officeTypes, formData.officeType)}</p>
-                        
-                        <div className="md:col-span-2">
-                          <strong>Business Activities:</strong>
-                          {formData.activities.length > 0 ? (
-                            <ul className="list-disc list-inside mt-1">
-                              {formData.activities.map(act => <li key={act}>{getLabel(activities, act)}</li>)}
-                            </ul>
-                          ) : ( <p>None selected</p> )}
-                        </div>
-
-                        <div className="md:col-span-2">
-                          <strong>Additional Services:</strong>
-                          {formData.additionalServices.length > 0 ? (
-                            <ul className="list-disc list-inside mt-1">
-                              {formData.additionalServices.map(srv => <li key={srv}>{getLabel(additionalServices, srv)}</li>)}
-                            </ul>
-                           ) : ( <p>None selected</p> )}
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <Button size="lg" className="h-14 text-lg w-full sm:w-auto">
-                            <Send className="mr-2 h-5 w-5" />
-                            Request a Quote
-                        </Button>
-                        <Button size="lg" variant="outline" onClick={resetCalculator} className="h-14 text-lg w-full sm:w-auto">
-                           <RotateCcw className="mr-2 h-5 w-5" />
-                           Start Over
-                        </Button>
-                    </div>
-                  </motion.div>
-                )}
-
-                {/* Navigation Buttons */}
-                {step < 5 && (
-                  <div className="flex justify-between pt-6">
-                    <Button
-                      variant="outline"
-                      onClick={handleBack}
-                      disabled={step === 1}
-                      className="px-8 py-6 text-base"
-                    >
-                      Back
-                    </Button>
-                    <Button
-                      onClick={handleNext}
-                      disabled={
-                        (step === 1 && !formData.businessType) ||
-                        (step === 2 && (!formData.jurisdiction || formData.activities.length === 0)) ||
-                        (step === 3 && !formData.officeType)
-                      }
-                      className="px-8 py-6 text-base group"
-                    >
-                      {step === 4 ? 'View Summary' : 'Next'}
-                      <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                    </Button>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+      <main className="container mx-auto px-4 pb-20 max-w-4xl">
+        <div className="mb-8">
+          <span className="text-primary font-semibold">Step {step} of {TOTAL_STEPS}</span>
+          <div className="w-full bg-muted rounded-full h-2.5 mt-2">
+            <motion.div
+              className="bg-primary h-2.5 rounded-full"
+              initial={{ width: 0 }}
+              animate={{ width: `${(step / TOTAL_STEPS) * 100}%` }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
+            />
           </div>
         </div>
-      </section>
 
+        <Card className="border-2 overflow-hidden">
+          <form name="business-quote-request" onSubmit={handleSubmit} data-netlify="true" netlify-honeypot="bot-field">
+             <input type="hidden" name="form-name" value="business-quote-request" />
+             <p className="hidden"><label>Don’t fill this out if you’re human: <input name="bot-field" /></label></p>
+            
+            <motion.div key={step} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -30 }} transition={{ duration: 0.4 }}>
+              <CardHeader className="text-center">
+                <CardTitle className="text-3xl font-heading">
+                  {step === 1 && "Business & Jurisdiction"}
+                  {step === 2 && "Activities & Visas"}
+                  {step === 3 && "Office & Services"}
+                  {step === 4 && "Review Your Selections"}
+                  {step === 5 && "Get Your Personalized Quote"}
+                </CardTitle>
+                <CardDescription className="text-lg">
+                  {step === 4 && "Please confirm your selections below before proceeding."}
+                  {step === 5 && "Just one last step. We'll email your quote to you."}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="min-h-[300px]">
+                {/* Step 1: Business Type & Jurisdiction */}
+                {step === 1 && <div className="space-y-8">
+                  <div>
+                    <Label className="text-xl font-semibold mb-4 block">Select Business Type</Label>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {businessTypes.map(type => (
+                        <div key={type.value} onClick={() => setFormData(prev => ({ ...prev, businessType: type.value }))} className={`p-4 border-2 rounded-lg cursor-pointer flex items-center transition-all ${formData.businessType === type.value ? 'border-primary bg-primary/10' : 'hover:border-primary/50'}`}>
+                          {type.icon} <span className="ml-3 font-medium">{type.label}</span> {formData.businessType === type.value && <CheckCircle className="h-5 w-5 text-primary ml-auto" />}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <Label className="text-xl font-semibold mb-4 block">Select Jurisdiction</Label>
+                    <Select value={formData.jurisdiction} onValueChange={value => setFormData(prev => ({ ...prev, jurisdiction: value }))}>
+                      <SelectTrigger className="h-14 text-lg"><SelectValue placeholder="Select from the list..." /></SelectTrigger>
+                      <SelectContent>{jurisdictions.map(j => <SelectItem key={j.value} value={j.value}>{j.label}</SelectItem>)}</SelectContent>
+                    </Select>
+                  </div>
+                </div>}
+
+                {/* Step 2: Activities & Visas */}
+                {step === 2 && <div className="space-y-8">
+                  <div>
+                    <Label className="text-xl font-semibold mb-4 block">Select Business Activities</Label>
+                    <div className="space-y-3">{activities.map(act => <div key={act.value} className="flex items-center space-x-3"><Checkbox id={act.value} checked={formData.activities.includes(act.value)} onCheckedChange={() => handleCheckboxChange('activities', act.value)} /> <Label htmlFor={act.value} className="flex items-center cursor-pointer">{act.icon} {act.label}</Label></div>)}</div>
+                  </div>
+                  <div>
+                    <Label className="text-xl font-semibold mb-4 block">How many visas do you need?</Label>
+                    <Input type="number" min="0" value={formData.visaCount} onChange={e => setFormData(prev => ({ ...prev, visaCount: parseInt(e.target.value) || 0 }))} className="h-14 text-lg" />
+                  </div>
+                </div>}
+                
+                {/* Step 3: Office & Services */}
+                {step === 3 && <div className="space-y-8">
+                   <div>
+                    <Label className="text-xl font-semibold mb-4 block">Select Office Type</Label>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                       {officeTypes.map(type => (
+                        <div key={type.value} onClick={() => setFormData(prev => ({ ...prev, officeType: type.value }))} className={`p-4 border-2 rounded-lg cursor-pointer flex items-center transition-all ${formData.officeType === type.value ? 'border-primary bg-primary/10' : 'hover:border-primary/50'}`}>
+                          {type.icon} <span className="ml-3 font-medium">{type.label}</span> {formData.officeType === type.value && <CheckCircle className="h-5 w-5 text-primary ml-auto" />}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <Label className="text-xl font-semibold mb-4 block">Any Additional Services?</Label>
+                    <div className="space-y-3">{additionalServices.map(srv => <div key={srv.value} className="flex items-center space-x-3"><Checkbox id={srv.value} checked={formData.additionalServices.includes(srv.value)} onCheckedChange={() => handleCheckboxChange('additionalServices', srv.value)} /> <Label htmlFor={srv.value} className="flex items-center cursor-pointer">{srv.icon} {srv.label}</Label></div>)}</div>
+                  </div>
+                </div>}
+
+                {/* Step 4: Review Summary */}
+                {step === 4 && <div className="space-y-3 text-lg bg-muted/50 p-6 rounded-md">
+                    <p><strong>Business Type:</strong> {formData.businessType ? businessTypes.find(item => item.value === formData.businessType).label : 'Not selected'}</p>
+                    <p><strong>Jurisdiction:</strong> {formData.jurisdiction ? jurisdictions.find(item => item.value === formData.jurisdiction).label : 'Not selected'}</p>
+                    <p><strong>Visas Required:</strong> {formData.visaCount}</p>
+                    <p><strong>Office Type:</strong> {formData.officeType ? officeTypes.find(item => item.value === formData.officeType).label : 'Not selected'}</p>
+                    <p><strong>Activities:</strong> {formData.activities.map(v => activities.find(i=>i.value===v).label).join(', ') || 'None'}</p>
+                    <p><strong>Services:</strong> {formData.additionalServices.map(v => additionalServices.find(i=>i.value===v).label).join(', ') || 'None'}</p>
+                </div>}
+                
+                {/* Step 5: Contact Form */}
+                {step === 5 && <div className="space-y-6">
+                    <div><Label htmlFor="name" className="font-semibold">Full Name</Label><Input id="name" name="name" type="text" value={contactDetails.name} onChange={handleContactChange} required className="h-12"/></div>
+                    <div><Label htmlFor="email" className="font-semibold">Email Address</Label><Input id="email" name="email" type="email" value={contactDetails.email} onChange={handleContactChange} required className="h-12"/></div>
+                    <div><Label htmlFor="phone" className="font-semibold">Phone Number</Label><Input id="phone" name="phone" type="tel" value={contactDetails.phone} onChange={handleContactChange} required className="h-12"/></div>
+                </div>}
+
+              </CardContent>
+            </motion.div>
+            
+            <div className="flex justify-between p-6 bg-muted/30 border-t">
+              <Button variant="outline" type="button" onClick={handleBack} disabled={step === 1 || isLoading}>Back</Button>
+              {step < TOTAL_STEPS && <Button type="button" onClick={handleNext} className="group">Next <ArrowRight className="ml-2 h-4 w-4" /></Button>}
+              {step === TOTAL_STEPS && <Button type="submit" className="group" disabled={isLoading}>
+                {isLoading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Submitting...</> : <>Get My Quote <Send className="ml-2 h-4 w-4" /></>}
+              </Button>}
+            </div>
+          </form>
+        </Card>
+      </main>
+      
       <Footer />
     </div>
   );
