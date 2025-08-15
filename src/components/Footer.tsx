@@ -26,17 +26,18 @@ const Footer = () => {
   ];
 
   const socialLinks = [
-    { icon: Facebook, href: '#', name: 'Facebook' },
+    { icon: Facebook, href: 'https://www.facebook.com/share/1BKMbzVNv6/?mibextid=wwXIfr', name: 'Facebook' },
     { icon: Twitter, href: '#', name: 'Twitter' },
     { icon: Linkedin, href: '#', name: 'LinkedIn' },
-    { icon: Instagram, href: 'https://www.instagram.com/karbusiness.ae?igsh=NWdwYmE1d2ZoazM=', name: 'Instagram' }
+    { icon: Instagram, href: 'https://www.instagram.com/karbusinessuae?igsh=dTZhb3RqMG9hemFw&utm_source=qr', name: 'Instagram' }
   ];
 
   const contactInfo = [
     {
       icon: MapPin,
       title: 'Visit Our Office',
-      content: 'Office 304, Al Reem Tower, Deira, Dubai, UAE',
+      content: '11 34A St - Hor Al Anz - Dubai
+Hor Al Anz, Dubai',
       link: 'https://maps.app.goo.gl/kCh1DDWQazVarJFA8?g_st=iwb',
       external: true
     },
