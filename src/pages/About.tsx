@@ -6,26 +6,9 @@ import Header from '@/components/Header';
 import EnhancedFooter from '@/components/EnhancedFooter';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { useAnimatedCounter } from '@/hooks/useAnimatedCounter';
 
 // Icons
 import { Users, Award, Clock, Globe, ArrowRight, Target, Briefcase } from 'lucide-react';
-
-// Reusable Stat Card Component
-const StatCard = ({ icon: Icon, target, label, suffix = '' }: { icon: React.ElementType, target: number, label: string, suffix?: string }) => {
-  const { count, ref } = useAnimatedCounter(target);
-  return (
-    <div ref={ref} className="text-center p-6 bg-card rounded-xl border hover:shadow-lg transition-all duration-300">
-      <Icon className="h-12 w-12 mx-auto mb-4 text-primary" />
-      <div className="text-4xl md:text-5xl font-heading font-bold text-primary mb-2">
-        {count}{suffix}
-      </div>
-      <div className="text-sm font-body text-muted-foreground">
-        {label}
-      </div>
-    </div>
-  );
-};
 
 const About = () => {
   const timeline = [
@@ -66,11 +49,12 @@ const About = () => {
     }
   ];
 
+  // Simplified stats data without animation
   const stats = [
-    { icon: Clock, target: 30, label: "Years of Excellence", suffix: "+" },
-    { icon: Users, target: 500, label: "Happy Clients", suffix: "+" },
-    { icon: Award, target: 1200, label: "Licenses Processed", suffix: "+" },
-    { icon: Globe, target: 5, label: "Languages Supported", suffix: "+" }
+    { icon: Clock, value: "30+", label: "Years of Excellence" },
+    { icon: Users, value: "500+", label: "Happy Clients" },
+    { icon: Award, value: "1200+", label: "Licenses Processed" },
+    { icon: Globe, value: "5+", label: "Languages Supported" }
   ];
 
   return (
@@ -93,13 +77,26 @@ const About = () => {
         </div>
       </section>
 
-      {/* Stats Section */}
+      {/* Stats Section - Simplified for stability */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-6xl mx-auto">
             {stats.map((stat, index) => (
-              <motion.div key={index} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: index * 0.1 }}>
-                <StatCard {...stat} />
+              <motion.div 
+                key={index} 
+                initial={{ opacity: 0, y: 20 }} 
+                whileInView={{ opacity: 1, y: 0 }} 
+                viewport={{ once: true }} 
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="text-center p-6 bg-card rounded-xl border hover:shadow-lg transition-all duration-300"
+              >
+                <stat.icon className="h-12 w-12 mx-auto mb-4 text-primary" />
+                <div className="text-4xl md:text-5xl font-heading font-bold text-primary mb-2">
+                  {stat.value}
+                </div>
+                <div className="text-sm font-body text-muted-foreground">
+                  {stat.label}
+                </div>
               </motion.div>
             ))}
           </div>
@@ -139,7 +136,7 @@ const About = () => {
         </div>
       </section>
 
-      {/* --- Improved Timeline Section --- */}
+      {/* Timeline Section */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-20">
@@ -147,9 +144,7 @@ const About = () => {
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">Key milestones in our three decades of unwavering commitment.</p>
           </div>
           <div className="relative max-w-4xl mx-auto">
-            {/* The vertical connecting line */}
             <div className="absolute left-1/2 top-0 h-full w-0.5 bg-border -translate-x-1/2"></div>
-            
             {timeline.map((item, index) => (
               <motion.div
                 key={index}
