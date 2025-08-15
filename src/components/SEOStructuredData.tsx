@@ -13,6 +13,10 @@ const SEOStructuredData = ({
   pageDescription,
   serviceName 
 }: SEOStructuredDataProps) => {
+  // Defensive access for coordinates
+  const lat = CONTACT_INFO?.location?.coordinates?.lat ?? null;
+  const lng = CONTACT_INFO?.location?.coordinates?.lng ?? null;
+
   const baseStructuredData = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -55,8 +59,8 @@ const SEOStructuredData = ({
     ],
     "geo": {
       "@type": "GeoCoordinates",
-      "latitude": CONTACT_INFO.location.coordinates.lat,
-      "longitude": CONTACT_INFO.location.coordinates.lng
+      "latitude": lat,
+      "longitude": lng
     },
     "areaServed": {
       "@type": "Place",
@@ -66,8 +70,8 @@ const SEOStructuredData = ({
       "@type": "GeoCircle",
       "geoMidpoint": {
         "@type": "GeoCoordinates",
-        "latitude": CONTACT_INFO.location.coordinates.lat,
-        "longitude": CONTACT_INFO.location.coordinates.lng
+        "latitude": lat,
+        "longitude": lng
       },
       "geoRadius": "50000"
     }
