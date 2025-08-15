@@ -6,15 +6,27 @@ import { Link } from 'react-router-dom';
 import Header from '@/components/Header';
 import EnhancedFooter from '@/components/EnhancedFooter';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useAnimatedCounter } from '@/hooks/useAnimatedCounter';
 
-// Icons
-import { Award, Users, GraduationCap, TrendingUp, CheckCircle, Clock, Star, Phone, ArrowRight, UserCheck, MessageSquareQuote } from 'lucide-react';
+// Icons - CORRECTED IMPORTS
+import { 
+    Award, 
+    Users, 
+    GraduationCap, 
+    TrendingUp, 
+    CheckCircle, 
+    Clock, 
+    Star, 
+    ArrowRight, 
+    UserCheck, 
+    MessageSquareQuote,
+    FileText // <<-- THIS WAS THE MISSING ICON
+} from 'lucide-react';
 
 // Reusable Stat Card Component for animated counters
-const StatCard = ({ icon: Icon, target, label, suffix = '' }) => {
+const StatCard = ({ icon: Icon, target, label, suffix = '' }: { icon: React.ElementType, target: number, label: string, suffix?: string }) => {
   const { count, ref } = useAnimatedCounter(target);
   const displayValue = label.includes('Rating') ? (count / 10).toFixed(1) : count;
   return (
