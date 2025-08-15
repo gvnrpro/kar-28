@@ -9,11 +9,10 @@ import { Badge } from '@/components/ui/badge';
 import { useAnimatedCounter } from '@/hooks/useAnimatedCounter';
 
 // Icons
-import { Users, Award, Clock, Globe, ArrowRight, CheckCircle, Target, Briefcase } from 'lucide-react';
-import businessHandshake from '@/assets/business-handshake.jpg';
+import { Users, Award, Clock, Globe, ArrowRight, Target, Briefcase } from 'lucide-react';
 
 // Reusable Stat Card Component
-const StatCard = ({ icon: Icon, target, label, suffix = '' }) => {
+const StatCard = ({ icon: Icon, target, label, suffix = '' }: { icon: React.ElementType, target: number, label: string, suffix?: string }) => {
   const { count, ref } = useAnimatedCounter(target);
   return (
     <div ref={ref} className="text-center p-6 bg-card rounded-xl border hover:shadow-lg transition-all duration-300">
@@ -56,13 +55,13 @@ const About = () => {
     {
       name: "Abdul Rehman",
       position: "Founder",
-      description: "The visionary architect behind KAR Business Services. Abdul Rehman's founding principles of integrity, client-centricity, and excellence continue to be the bedrock of our firm. His profound understanding of the UAE's business landscape has guided hundreds of entrepreneurs to success.",
+      description: "The visionary architect behind KAR Business Services. Abdul Rehman's founding principles of integrity, client-centricity, and excellence continue to be the bedrock of our firm.",
       icon: Target
     },
     {
       name: "Mohammed Aslam",
       position: "CEO",
-      description: "As CEO, Mohammed Aslam drives the strategic direction and operational excellence of the firm. With over two decades of experience within KAR, his leadership ensures that we consistently deliver unparalleled service and innovative solutions to our clients.",
+      description: "As CEO, Mohammed Aslam drives the strategic direction and operational excellence of the firm, ensuring we consistently deliver unparalleled service and innovative solutions.",
       icon: Briefcase
     }
   ];
@@ -107,7 +106,7 @@ const About = () => {
         </div>
       </section>
 
-      {/* New Leadership Section */}
+      {/* Leadership Section */}
       <section className="py-20 bg-muted/50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
@@ -140,32 +139,44 @@ const About = () => {
         </div>
       </section>
 
-      {/* Timeline Section */}
+      {/* --- REVISED TIMELINE SECTION --- */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
+          <div className="text-center mb-20">
             <h2 className="text-4xl md:text-5xl font-heading font-bold mb-6">Our Journey</h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">Key milestones in our three decades of unwavering commitment.</p>
           </div>
-          <div className="relative max-w-2xl mx-auto">
-            <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-border -translate-x-1/2"></div>
+
+          <div className="relative max-w-4xl mx-auto">
+            {/* The vertical connecting line */}
+            <div className="absolute left-1/2 top-0 h-full w-0.5 bg-border -translate-x-1/2"></div>
+            
             {timeline.map((item, index) => (
-              <motion.div 
+              <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-                className="relative mb-12 flex items-center"
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="mb-16"
               >
-                <div className={`absolute w-4 h-4 rounded-full bg-primary border-4 border-background left-1/2 -translate-x-1/2 z-10`}></div>
-                <div className={`w-[calc(50%-2rem)] ${index % 2 === 0 ? 'text-right' : 'order-2 text-left'}`}>
-                  <Badge variant="secondary" className="mb-2 text-primary font-semibold">{item.year}</Badge>
-                  <h3 className="text-xl font-heading font-bold">{item.title}</h3>
-                </div>
-                <div className="w-8"></div>
-                <div className={`w-[calc(50%-2rem)] ${index % 2 === 0 ? 'order-2' : ''}`}>
-                  <p className="text-muted-foreground">{item.description}</p>
+                <div className={`flex items-center ${index % 2 === 0 ? 'flex-row-reverse' : 'flex-row'}`}>
+                  {/* The content card */}
+                  <div className="w-[calc(50%-2.5rem)]">
+                    <div className="bg-card p-6 rounded-xl border shadow-sm hover:shadow-lg transition-shadow duration-300">
+                      <Badge variant="secondary" className="mb-3 text-primary font-semibold">{item.year}</Badge>
+                      <h3 className="text-2xl font-heading font-bold mb-3">{item.title}</h3>
+                      <p className="text-muted-foreground leading-relaxed">{item.description}</p>
+                    </div>
+                  </div>
+                  
+                  {/* The central dot */}
+                  <div className="w-10 flex-shrink-0">
+                    <div className="w-6 h-6 bg-primary rounded-full border-4 border-background shadow-lg mx-auto"></div>
+                  </div>
+
+                  {/* Spacer */}
+                  <div className="w-[calc(50%-2.5rem)]"></div>
                 </div>
               </motion.div>
             ))}
