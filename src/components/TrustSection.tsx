@@ -8,8 +8,9 @@ import { Clock, Users, Star, Award, CheckCircle, ArrowRight } from 'lucide-react
 import businessHandshake from '@/assets/business-handshake.jpg';
 
 // Reusable Stat Card Component
-const StatCard = ({ icon: Icon, target, label, suffix = '' }) => {
+const StatCard = ({ icon: Icon, target, label, suffix = '' }: { icon: React.ElementType, target: number, label: string, suffix?: string }) => {
   const { count, ref } = useAnimatedCounter(target, 2);
+  // Special handling for decimal rating
   const displayValue = label.includes('Rating') ? (count / 10).toFixed(1) : count;
   return (
     <div ref={ref} className="text-center p-4 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
