@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Phone, Mail, MapPin, ArrowRight } from 'lucide-react';
+import { Menu, X, Phone, Mail, ArrowRight } from 'lucide-react';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -8,134 +8,141 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
+import { Link } from 'react-router-dom';
 import karLogoNew from '/lovable-uploads/25d1452b-bc38-4aac-b8fb-bcf6eceb773d.png';
+import { CONTACT_INFO } from '@/lib/contact-info';
+import { cn } from '@/lib/utils';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
-  const navigationLinks = [
-    { name: 'Home', href: '/' },
-    { name: 'About', href: '/about' },
-    { name: 'Business Setup', href: '/business-setup' },
-    { name: 'Golden Visa', href: '/golden-visa' },
-    { name: 'Calculator', href: '/calculator' },
-    { name: 'Contact', href: '/contact' }
-  ];
+  // Effect to handle scroll-based background change
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Effect to lock body scroll when mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = isMenuOpen ? 'hidden' : 'unset';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMenuOpen]);
 
   const serviceCategories = [
     {
       title: 'Formation & Setup',
-      description: 'Complete company setup UAE and business formation services',
       services: [
-        { name: 'Company Formation in UAE', href: '/services#company-formation' },
-        { name: 'PRO Services Dubai', href: '/services#pro-services' },
-        { name: 'Bank Account Opening', href: '/services#bank-account' }
+        { name: 'Company Formation', href: '/services#company-formation' },
+        { name: 'PRO Services', href: '/services#pro-services' },
+        { name: 'Bank Account Opening', href: '/services#bank-account-opening' }
       ]
     },
     {
       title: 'Compliance & Tax',
-      description: 'VAT registration UAE and compliance solutions',
       services: [
-        { name: 'VAT Registration UAE', href: '/services#vat-registration' },
-        { name: 'Accounting Services', href: '/services#accounting' },
-        { name: 'License Renewal', href: '/services#license-renewal' }
+        { name: 'VAT & Tax Compliance', href: '/services#vat-registration' },
+        { name: 'Accounting & Bookkeeping', href: '/services#accounting-bookkeeping' },
+        { name: 'Business License Renewal', href: '/services#license-renewal' }
       ]
     },
     {
       title: 'Specialized Services',
-      description: 'Expert visa processing and business solutions',
       services: [
-        { name: 'UAE Visa Processing', href: '/services#visa-services' },
+        { name: 'Visa & Immigration', href: '/services#visa-services' },
         { name: 'Document Attestation', href: '/services#document-attestation' },
-        { name: 'Trademark Registration', href: '/services#trademark' }
+        { name: 'Trademark Registration', href: '/services#trademark-registration' }
       ]
     }
   ];
 
+  const mainLinks = [
+    { name: 'Home', href: '/' },
+    { name: 'About Us', href: '/about' },
+    { name: 'Business Setup', href: '/business-setup' },
+    { name: 'Golden Visa', href: '/golden-visa' }
+  ];
+
+  const navLinkClasses = cn(
+    "bg-transparent text-sm font-semibold transition-colors duration-300",
+    isScrolled ? "text-foreground hover:text-primary" : "text-white hover:text-white/80"
+  );
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-[60] bg-white/95 backdrop-blur-xl border-b border-border/50 shadow-sm">
-      {/* Modern Contact Bar */}
-      <div className="bg-gradient-to-r from-primary to-primary/90 text-white">
-        <div className="max-w-7xl mx-auto px-4 py-2">
+    <header className={cn(
+      "fixed top-0 left-0 right-0 z-[100] transition-all duration-300",
+      isScrolled ? 'bg-white/90 backdrop-blur-lg shadow-md' : 'bg-transparent'
+    )}>
+      
+      {/* Top Contact Bar */}
+      <div className="bg-primary text-white">
+        <div className="max-w-7xl mx-auto px-4 py-1.5">
           <div className="flex items-center justify-between text-xs">
             <div className="hidden md:flex items-center space-x-6">
-              <div className="flex items-center space-x-2 hover:text-secondary transition-colors">
+              <a href={`tel:${CONTACT_INFO.contact.phone.primary}`} className="flex items-center space-x-2 hover:text-secondary transition-colors">
                 <Phone className="h-3 w-3" />
-                <span className="font-medium">+971 4 269 8181</span>
-              </div>
-              <div className="flex items-center space-x-2 hover:text-secondary transition-colors">
+                <span className="font-medium">{CONTACT_INFO.contact.phone.primary}</span>
+              </a>
+              <a href={`mailto:${CONTACT_INFO.contact.email.primary}`} className="flex items-center space-x-2 hover:text-secondary transition-colors">
                 <Mail className="h-3 w-3" />
-                <span>info@karuae.com</span>
-              </div>
-              <div className="flex items-center space-x-2 hover:text-secondary transition-colors">
-                <MapPin className="h-3 w-3" />
-                <span>Dubai, UAE</span>
-              </div>
+                <span>{CONTACT_INFO.contact.email.primary}</span>
+              </a>
             </div>
-            <div className="flex items-center space-x-4 text-xs">
-              <span className="flex items-center space-x-1">
-                <span>🇦🇪</span>
-                <span className="font-medium">Est. 1992</span>
-              </span>
+            <div className="flex items-center space-x-4 text-xs font-medium ml-auto">
+              <span>🇦🇪 Est. 1993</span>
               <div className="hidden sm:block h-3 w-px bg-white/30"></div>
-              <span className="hidden sm:inline font-medium">30+ Years Excellence</span>
+              <span className="hidden sm:inline">30+ Years of Excellence</span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Main Navigation */}
-      <nav className="max-w-7xl mx-auto px-4 py-3">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <div className="flex items-center group">
+      <nav className="max-w-7xl mx-auto px-4">
+        <div className="flex items-center justify-between h-20">
+          <Link to="/" className="flex-shrink-0">
             <img 
               src={karLogoNew} 
               alt="KAR Business Services Logo" 
-              className="h-10 w-auto object-contain group-hover:scale-105 transition-transform duration-300"
+              className={cn("h-12 w-auto object-contain transition-all duration-300", isScrolled ? "" : "brightness-0 invert")}
             />
-          </div>
+          </Link>
 
-          {/* Desktop Navigation */}
           <NavigationMenu className="hidden lg:flex">
-            <NavigationMenuList className="flex items-center space-x-1">
+            <NavigationMenuList>
+              {mainLinks.map((link) => (
+                <NavigationMenuItem key={link.name}>
+                  <Link to={link.href}>
+                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), navLinkClasses)}>
+                      {link.name}
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+              ))}
               <NavigationMenuItem>
-                <NavigationMenuLink 
-                  href="/" 
-                  className="px-4 py-2 text-sm font-medium text-foreground hover:text-primary hover:bg-accent rounded-lg transition-all duration-200"
-                >
-                  Home
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-              
-              <NavigationMenuItem>
-                <NavigationMenuTrigger className="px-4 py-2 text-sm font-medium text-foreground hover:text-primary data-[state=open]:bg-accent rounded-lg">
-                  Services
-                </NavigationMenuTrigger>
+                <NavigationMenuTrigger className={navLinkClasses}>Services</NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <div className="w-[800px] p-6 bg-white/95 backdrop-blur-xl border border-border/50 rounded-xl shadow-xl">
+                  <div className="w-[600px] p-6">
                     <div className="grid grid-cols-3 gap-6">
-                      {serviceCategories.map((category, index) => (
-                        <div key={index} className="space-y-4">
-                          <h4 className="font-semibold text-primary text-sm">
-                            {category.title}
-                          </h4>
-                          <p className="text-xs text-muted-foreground leading-relaxed">
-                            {category.description}
-                          </p>
+                      {serviceCategories.map((category) => (
+                        <div key={category.title} className="flex flex-col">
+                          <h4 className="font-semibold text-primary mb-3">{category.title}</h4>
                           <ul className="space-y-2">
-                            {category.services.map((service, serviceIndex) => (
-                              <li key={serviceIndex}>
-                                <NavigationMenuLink
-                                  href={service.href}
-                                  className="block text-xs text-foreground hover:text-primary transition-colors p-2 rounded-lg hover:bg-accent group"
-                                >
-                                  <span className="flex items-center justify-between">
+                            {category.services.map((service) => (
+                              <li key={service.name}>
+                                <Link to={service.href} className="block">
+                                  <NavigationMenuLink className="text-sm text-foreground hover:text-primary transition-colors p-1 rounded-md hover:bg-accent group flex items-center justify-between">
                                     {service.name}
                                     <ArrowRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-                                  </span>
-                                </NavigationMenuLink>
+                                  </NavigationMenuLink>
+                                </Link>
                               </li>
                             ))}
                           </ul>
@@ -145,81 +152,47 @@ const Header = () => {
                   </div>
                 </NavigationMenuContent>
               </NavigationMenuItem>
-              
-              {navigationLinks.slice(2).map((link) => (
-                <NavigationMenuItem key={link.name}>
-                  <NavigationMenuLink 
-                    href={link.href}
-                    className="px-4 py-2 text-sm font-medium text-foreground hover:text-primary hover:bg-accent rounded-lg transition-all duration-200"
-                  >
-                    {link.name}
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-              ))}
             </NavigationMenuList>
           </NavigationMenu>
 
-          {/* Desktop CTA */}
           <div className="hidden lg:flex items-center space-x-3">
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="text-sm font-medium border-primary/20 hover:border-primary hover:bg-primary/5"
-            >
-              Calculator
+            <Button asChild variant="ghost" className={cn('font-semibold', navLinkClasses)}>
+              <Link to="/calculator">Calculator</Link>
             </Button>
-            <Button 
-              size="sm" 
-              className="bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-white shadow-lg hover:shadow-xl transition-all duration-300 text-sm font-medium"
-            >
-              Free Consult
+            <Button asChild className="bg-gradient-to-r from-secondary to-orange-400 text-white shadow-lg hover:shadow-xl transition-all duration-300 font-semibold group">
+              <Link to="/contact">Free Consultation <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" /></Link>
             </Button>
           </div>
 
-          {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="lg:hidden p-2 rounded-lg hover:bg-accent transition-colors"
+            className={cn("lg:hidden p-2 rounded-lg", isScrolled ? 'text-foreground' : 'text-white')}
+            aria-label="Toggle menu"
           >
-            {isMenuOpen ? (
-              <X className="h-5 w-5 text-foreground" />
-            ) : (
-              <Menu className="h-5 w-5 text-foreground" />
-            )}
+            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
         </div>
+      </nav>
 
-        {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div className="lg:hidden absolute top-full left-0 right-0 bg-white/95 backdrop-blur-xl border-b border-border/50 shadow-lg z-[70]">
-            <div className="max-w-7xl mx-auto px-4 py-6">
-              <div className="space-y-4">
-                {navigationLinks.map((link) => (
-                  <a
-                    key={link.name}
-                    href={link.href}
-                    className="block text-foreground hover:text-primary transition-colors duration-200 font-medium py-3 text-lg touch-manipulation"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {link.name}
-                  </a>
-                ))}
-                <div className="pt-4 border-t border-border/30 space-y-3">
-                  <Button variant="outline" size="sm" className="w-full h-12 text-base touch-manipulation">
-                    Calculator
-                  </Button>
-                  <Button 
-                    size="sm" 
-                    className="w-full h-12 text-base bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-white touch-manipulation"
-                  >
-                    Free Consultation
-                  </Button>
-                </div>
-              </div>
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="lg:hidden absolute top-full left-0 right-0 h-screen bg-white shadow-lg z-[70] animate-in slide-in-from-top-4 duration-300">
+          <div className="max-w-7xl mx-auto px-4 py-6 flex flex-col h-full">
+            <div className="space-y-2">
+              {[...mainLinks, {name: 'Services', href: '/services'}, {name: 'Calculator', href: '/calculator'}, {name: 'Contact', href: '/contact'}].map((link) => (
+                <Link key={link.name} to={link.href} className="block text-foreground hover:text-primary font-semibold py-3 text-xl" onClick={() => setIsMenuOpen(false)}>
+                  {link.name}
+                </Link>
+              ))}
+            </div>
+            <div className="mt-auto pt-4 border-t border-border/30">
+              <Button asChild size="lg" className="w-full h-14 text-lg bg-gradient-to-r from-primary to-primary/90 text-white">
+                 <Link to="/contact" onClick={() => setIsMenuOpen(false)}>Book Free Consultation</Link>
+              </Button>
             </div>
           </div>
-        )}
-      </nav>
+        </div>
+      )}
     </header>
   );
 };
