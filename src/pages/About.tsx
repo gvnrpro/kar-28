@@ -6,13 +6,13 @@ import Header from '@/components/Header';
 import EnhancedFooter from '@/components/EnhancedFooter';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { useAnimatedCounter } from '@/hooks/useAnimatedCounter';
+import { useAnimatedCounter } from '@/hooks/useAnimatedCounter'; // Importing the safe hook
 
 // Icons
 import { Users, Award, Clock, Globe, ArrowRight, Target, Briefcase } from 'lucide-react';
 
-// Reusable Stat Card Component
-const StatCard = ({ icon: Icon, target, label, suffix = '' }: { icon: React.ElementType, target: number, label: string, suffix?: string }) => {
+// Reusable Stat Card Component that uses the safe hook
+const StatCard = ({ icon: Icon, target, label, suffix = '' }) => {
   const { count, ref } = useAnimatedCounter(target);
   return (
     <div ref={ref} className="text-center p-6 bg-card rounded-xl border hover:shadow-lg transition-all duration-300">
@@ -55,13 +55,13 @@ const About = () => {
     {
       name: "Abdul Rehman",
       position: "Founder",
-      description: "The visionary architect behind KAR Business Services. Abdul Rehman's founding principles of integrity, client-centricity, and excellence continue to be the bedrock of our firm.",
+      description: "The visionary architect behind KAR Business Services. Abdul Rehman's founding principles of integrity and excellence continue to be the bedrock of our firm.",
       icon: Target
     },
     {
       name: "Mohammed Aslam",
       position: "CEO",
-      description: "As CEO, Mohammed Aslam drives the strategic direction and operational excellence of the firm, ensuring we consistently deliver unparalleled service and innovative solutions.",
+      description: "As CEO, Mohammed Aslam drives the strategic direction and operational excellence of the firm, ensuring we consistently deliver unparalleled service to our clients.",
       icon: Briefcase
     }
   ];
@@ -93,7 +93,7 @@ const About = () => {
         </div>
       </section>
 
-      {/* Stats Section */}
+      {/* Stats Section - NOW USING THE SAFE HOOK */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-6xl mx-auto">
@@ -139,18 +139,15 @@ const About = () => {
         </div>
       </section>
 
-      {/* --- REVISED TIMELINE SECTION --- */}
+      {/* Timeline Section */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-20">
             <h2 className="text-4xl md:text-5xl font-heading font-bold mb-6">Our Journey</h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">Key milestones in our three decades of unwavering commitment.</p>
           </div>
-
           <div className="relative max-w-4xl mx-auto">
-            {/* The vertical connecting line */}
             <div className="absolute left-1/2 top-0 h-full w-0.5 bg-border -translate-x-1/2"></div>
-            
             {timeline.map((item, index) => (
               <motion.div
                 key={index}
@@ -161,7 +158,6 @@ const About = () => {
                 className="mb-16"
               >
                 <div className={`flex items-center ${index % 2 === 0 ? 'flex-row-reverse' : 'flex-row'}`}>
-                  {/* The content card */}
                   <div className="w-[calc(50%-2.5rem)]">
                     <div className="bg-card p-6 rounded-xl border shadow-sm hover:shadow-lg transition-shadow duration-300">
                       <Badge variant="secondary" className="mb-3 text-primary font-semibold">{item.year}</Badge>
@@ -169,13 +165,9 @@ const About = () => {
                       <p className="text-muted-foreground leading-relaxed">{item.description}</p>
                     </div>
                   </div>
-                  
-                  {/* The central dot */}
                   <div className="w-10 flex-shrink-0">
                     <div className="w-6 h-6 bg-primary rounded-full border-4 border-background shadow-lg mx-auto"></div>
                   </div>
-
-                  {/* Spacer */}
                   <div className="w-[calc(50%-2.5rem)]"></div>
                 </div>
               </motion.div>
