@@ -9,7 +9,7 @@ import EnhancedContactSection from '@/components/EnhancedContactSection';
 import WhatsAppButton from '@/components/WhatsAppButton';
 import EnhancedFooter from '@/components/EnhancedFooter';
 import SEOStructuredData from '@/components/SEOStructuredData';
-import { MetaTags } from '@/components/MetaTags'; // Correctly importing the component
+import MetaTags from '@/components/MetaTags'; // CORRECTED: Changed from { MetaTags } to MetaTags for default import
 
 const Index = () => {
   return (
@@ -22,38 +22,38 @@ const Index = () => {
       <SEOStructuredData pageType="website" />
       <Header />
       <main>
-        {/* Section 1: Grab Attention & Build Intrigue */}
+        {/* Hero Section - Convert */}
         <section id="home">
           <EnhancedHeroSection />
         </section>
         
-        {/* Section 2: Build Immediate Trust */}
-        <section id="trust" className="py-20 bg-background">
+        {/* Trust & Credibility - Learn About Us */}
+        <section id="trust" className="bg-background">
           <TrustSection />
         </section>
         
-        {/* Section 3: Showcase What We Do */}
-        <section id="services" className="py-20 bg-muted/50">
+        {/* Services Overview - Understand Services */}
+        <section id="services" className="bg-gradient-elegant">
           <EnhancedServicesSection />
         </section>
         
-        {/* Section 4: Display Social Proof */}
-        <section id="clients" className="py-16 bg-background">
+        {/* Client Logos - Build Trust */}
+        <section className="bg-background">
           <EnhancedClientLogos />
         </section>
         
-        {/* Section 5: Explain How We Do It */}
-        <section id="process" className="py-20 bg-muted/50">
+        {/* Process - Understand How */}
+        <section id="process" className="bg-muted/30">
           <EnhancedProcessSection />
         </section>
         
-        {/* Section 6: Drive Action */}
-        <section id="cta" className="bg-gradient-primary">
+        {/* Conversion CTA - Convert */}
+        <section className="bg-gradient-primary">
           <EnhancedConversionCTA />
         </section>
         
-        {/* Section 7: Final Opportunity to Connect */}
-        <section id="contact" className="py-20 bg-background">
+        {/* Contact - Connect */}
+        <section id="contact" className="bg-background">
           <EnhancedContactSection />
         </section>
       </main>
