@@ -25,7 +25,7 @@ export const useAnimatedCounter = (target: number, duration: number = 2) => {
           return () => controls.stop();
         }
       },
-      { threshold: 0.1 } // Start animation a bit earlier
+      { threshold: 0.1 }
     );
 
     observer.observe(element);
