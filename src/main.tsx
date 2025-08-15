@@ -1,12 +1,17 @@
 import React from 'react';
-import { createRoot } from 'react-dom/client';
-import App from './App.tsx';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async'; // <-- IMPORT THIS
+import App from './App';
 import './index.css';
 
-const root = createRoot(document.getElementById("root")!);
-
-root.render(
+ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <App />
+    {/* WRAP YOUR ENTIRE APP WITH HelmetProvider */}
+    <HelmetProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </HelmetProvider>
   </React.StrictMode>
 );
