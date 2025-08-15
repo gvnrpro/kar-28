@@ -9,45 +9,50 @@ import EnhancedContactSection from '@/components/EnhancedContactSection';
 import WhatsAppButton from '@/components/WhatsAppButton';
 import EnhancedFooter from '@/components/EnhancedFooter';
 import SEOStructuredData from '@/components/SEOStructuredData';
+import { MetaTags } from '@/components/MetaTags';
 
 const Index = () => {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background">
+      <MetaTags
+        title="KAR Business Services | Expert Business Setup in Dubai, UAE"
+        description="Your trusted partner for company formation, PRO services, and Golden Visas in Dubai. With over 30 years of experience, we make your UAE business journey seamless."
+      />
       <SEOStructuredData pageType="website" />
       <Header />
       <main>
-        {/* Hero Section - Convert */}
+        {/* Section 1: Grab Attention & Build Intrigue */}
         <section id="home">
           <EnhancedHeroSection />
         </section>
         
-        {/* Trust & Credibility - Learn About Us */}
-        <section id="trust" className="bg-background">
+        {/* Section 2: Build Immediate Trust */}
+        <section id="trust" className="py-20 bg-background">
           <TrustSection />
         </section>
         
-        {/* Services Overview - Understand Services */}
-        <section id="services" className="bg-gradient-elegant">
+        {/* Section 3: Showcase What We Do */}
+        <section id="services" className="py-20 bg-muted/50">
           <EnhancedServicesSection />
         </section>
         
-        {/* Client Logos - Build Trust */}
-        <section className="bg-background">
+        {/* Section 4: Display Social Proof */}
+        <section id="clients" className="py-16 bg-background">
           <EnhancedClientLogos />
         </section>
         
-        {/* Process - Understand How */}
-        <section id="process" className="bg-muted/30">
+        {/* Section 5: Explain How We Do It */}
+        <section id="process" className="py-20 bg-muted/50">
           <EnhancedProcessSection />
         </section>
         
-        {/* Conversion CTA - Convert */}
-        <section className="bg-gradient-primary">
+        {/* Section 6: Drive Action */}
+        <section id="cta" className="bg-gradient-primary">
           <EnhancedConversionCTA />
         </section>
         
-        {/* Contact - Connect */}
-        <section id="contact" className="bg-background">
+        {/* Section 7: Final Opportunity to Connect */}
+        <section id="contact" className="py-20 bg-background">
           <EnhancedContactSection />
         </section>
       </main>
