@@ -6,13 +6,13 @@ import Header from '@/components/Header';
 import EnhancedFooter from '@/components/EnhancedFooter';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { useAnimatedCounter } from '@/hooks/useAnimatedCounter'; // Importing the safe hook
+import { useAnimatedCounter } from '@/hooks/useAnimatedCounter';
 
 // Icons
 import { Users, Award, Clock, Globe, ArrowRight, Target, Briefcase } from 'lucide-react';
 
-// Reusable Stat Card Component that uses the safe hook
-const StatCard = ({ icon: Icon, target, label, suffix = '' }) => {
+// Reusable Stat Card Component
+const StatCard = ({ icon: Icon, target, label, suffix = '' }: { icon: React.ElementType, target: number, label: string, suffix?: string }) => {
   const { count, ref } = useAnimatedCounter(target);
   return (
     <div ref={ref} className="text-center p-6 bg-card rounded-xl border hover:shadow-lg transition-all duration-300">
@@ -55,13 +55,13 @@ const About = () => {
     {
       name: "Abdul Rehman",
       position: "Founder",
-      description: "The visionary architect behind KAR Business Services. Abdul Rehman's founding principles of integrity and excellence continue to be the bedrock of our firm.",
+      description: "The visionary architect behind KAR Business Services. Abdul Rehman's founding principles of integrity, client-centricity, and excellence continue to be the bedrock of our firm.",
       icon: Target
     },
     {
       name: "Mohammed Aslam",
       position: "CEO",
-      description: "As CEO, Mohammed Aslam drives the strategic direction and operational excellence of the firm, ensuring we consistently deliver unparalleled service to our clients.",
+      description: "As CEO, Mohammed Aslam drives the strategic direction and operational excellence of the firm, ensuring we consistently deliver unparalleled service and innovative solutions.",
       icon: Briefcase
     }
   ];
@@ -93,7 +93,7 @@ const About = () => {
         </div>
       </section>
 
-      {/* Stats Section - NOW USING THE SAFE HOOK */}
+      {/* Stats Section */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-6xl mx-auto">
@@ -139,7 +139,7 @@ const About = () => {
         </div>
       </section>
 
-      {/* Timeline Section */}
+      {/* --- Improved Timeline Section --- */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-20">
@@ -147,7 +147,9 @@ const About = () => {
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">Key milestones in our three decades of unwavering commitment.</p>
           </div>
           <div className="relative max-w-4xl mx-auto">
+            {/* The vertical connecting line */}
             <div className="absolute left-1/2 top-0 h-full w-0.5 bg-border -translate-x-1/2"></div>
+            
             {timeline.map((item, index) => (
               <motion.div
                 key={index}
