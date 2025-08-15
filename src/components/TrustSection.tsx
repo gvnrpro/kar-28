@@ -7,10 +7,9 @@ import { useAnimatedCounter } from '@/hooks/useAnimatedCounter';
 import { Clock, Users, Star, Award, CheckCircle, ArrowRight } from 'lucide-react';
 import businessHandshake from '@/assets/business-handshake.jpg';
 
-// Reusable Stat Card Component
+// Reusable Stat Card Component that uses the hook
 const StatCard = ({ icon: Icon, target, label, suffix = '' }: { icon: React.ElementType, target: number, label: string, suffix?: string }) => {
   const { count, ref } = useAnimatedCounter(target, 2);
-  // Special handling for decimal rating
   const displayValue = label.includes('Rating') ? (count / 10).toFixed(1) : count;
   return (
     <div ref={ref} className="text-center p-4 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
@@ -89,9 +88,9 @@ const TrustSection = () => {
               <img 
                 src={businessHandshake} 
                 alt="Professional business handshake solidifying a partnership" 
-                className="w-full h-full object-cover"
+                className="w-full h-[500px] object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
               
               <div className="absolute bottom-0 left-0 right-0 p-6">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -115,5 +114,4 @@ const TrustSection = () => {
   );
 };
 
-// This was the line with the error. The "a" has been removed.
 export default TrustSection;
