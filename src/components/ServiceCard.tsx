@@ -1,12 +1,27 @@
-// src/components/ServiceCard.jsx
+// src/components/ServiceCard.tsx
 import { motion } from 'framer-motion';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { CheckCircle, ArrowRight } from 'lucide-react';
+import { CheckCircle, ArrowRight, LucideIcon } from 'lucide-react';
 
-export const ServiceCard = ({ service, index }) => {
+interface Service {
+  id: string;
+  icon: LucideIcon;
+  title: string;
+  description: string;
+  features: string[];
+  details: string;
+  color: string;
+}
+
+interface ServiceCardProps {
+  service: Service;
+  index: number;
+}
+
+export const ServiceCard = ({ service, index }: ServiceCardProps) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}

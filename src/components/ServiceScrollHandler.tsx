@@ -1,23 +1,23 @@
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 
 const ServiceScrollHandler = () => {
-  const location = useLocation();
-
   useEffect(() => {
-    if (location.hash) {
-      // Wait for the page to render before scrolling
-      setTimeout(() => {
-        const element = document.getElementById(location.hash.slice(1));
+    const handleScrollToService = () => {
+      const hash = window.location.hash;
+      if (hash) {
+        const element = document.querySelector(hash);
         if (element) {
-          element.scrollIntoView({ 
-            behavior: 'smooth',
-            block: 'start'
-          });
+          setTimeout(() => {
+            element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }, 100);
         }
-      }, 100);
-    }
-  }, [location]);
+      }
+    };
+
+    handleScrollToService();
+    window.addEventListener('hashchange', handleScrollToService);
+    return () => window.removeEventListener('hashchange', handleScrollToService);
+  }, []);
 
   return null;
 };

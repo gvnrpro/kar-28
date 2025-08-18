@@ -30,8 +30,8 @@ const Services = () => {
       {/* --- Hero Section --- */}
       <section className="relative py-24 overflow-hidden text-center text-white">
         <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-black"></div>
-        {/* Optional: Add a subtle pattern for visual texture */}
-        <div className="absolute inset-0 bg-[url('/patterns/subtle-grid.svg')] opacity-5"></div>
+        {/* Background texture */}
+        <div className="absolute inset-0 bg-gradient-to-br from-transparent via-black/10 to-transparent opacity-20"></div>
         <div className="relative z-10 container mx-auto px-4">
           <motion.h1 
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}
