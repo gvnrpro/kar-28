@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Link } from 'react-router-dom';
@@ -173,13 +173,20 @@ const Contact = () => {
                   </div>
                   <div>
                     <Label htmlFor="service">Service of Interest *</Label>
-                    {/* Controller needed for shadcn's Select with react-hook-form */}
-                    <Select onValueChange={(value) => field.onChange(value)} defaultValue={field.value}>
-                        <SelectTrigger className="h-12 mt-2 text-muted-foreground"><SelectValue placeholder="Select a service" /></SelectTrigger>
-                        <SelectContent>
-                          {services.map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}
-                        </SelectContent>
-                    </Select>
+                    <Controller
+                      name="service"
+                      control={control}
+                      render={({ field }) => (
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <SelectTrigger className="h-12 mt-2 text-muted-foreground">
+                            <SelectValue placeholder="Select a service" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {services.map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}
+                          </SelectContent>
+                        </Select>
+                      )}
+                    />
                     {errors.service && <p className="text-red-500 text-sm mt-1">{errors.service.message}</p>}
                   </div>
                   <div>
