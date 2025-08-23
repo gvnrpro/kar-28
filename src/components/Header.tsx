@@ -119,11 +119,11 @@ const Header = () => {
             <NavigationMenuList>
               {mainLinks.map((link) => (
                 <NavigationMenuItem key={link.name}>
-                  <Link to={link.href}>
-                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), navLinkClasses)}>
+                  <NavigationMenuLink asChild className={cn(navigationMenuTriggerStyle(), navLinkClasses)}>
+                    <Link to={link.href}>
                       {link.name}
-                    </NavigationMenuLink>
-                  </Link>
+                    </Link>
+                  </NavigationMenuLink>
                 </NavigationMenuItem>
               ))}
               <NavigationMenuItem>
@@ -137,12 +137,12 @@ const Header = () => {
                           <ul className="space-y-2">
                             {category.services.map((service) => (
                               <li key={service.name}>
-                                <Link to={service.href} className="block">
-                                  <NavigationMenuLink className="text-sm text-foreground hover:text-primary transition-colors p-1 rounded-md hover:bg-accent group flex items-center justify-between">
+                                <NavigationMenuLink asChild className="text-sm text-foreground hover:text-primary transition-colors p-1 rounded-md hover:bg-accent group flex items-center justify-between">
+                                  <Link to={service.href}>
                                     {service.name}
                                     <ArrowRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-                                  </NavigationMenuLink>
-                                </Link>
+                                  </Link>
+                                </NavigationMenuLink>
                               </li>
                             ))}
                           </ul>
