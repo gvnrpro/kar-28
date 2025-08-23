@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Building2, FileText, CreditCard, Users, Shield, Award, Globe, MapPin, Calculator, Briefcase, PiggyBank, TrendingUp, ChevronRight, Filter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const EnhancedServicesSection = () => {
@@ -36,9 +37,10 @@ const EnhancedServicesSection = () => {
       description: 'Complete company setup UAE services including Dubai company formation, free zone and mainland business registration',
       features: ['Mainland Company Setup', 'Free Zone Registration', 'Offshore Company Formation', 'Dubai Business License'],
       category: 'formation',
-      price: 'From AED 3,500',
+      valueProposition: 'Get Custom Quote',
       duration: '7-14 days',
-      popularity: 'Most Popular'
+      popularity: 'Most Popular',
+      urgency: 'Limited spots available this month'
     },
     {
       icon: Globe,
@@ -46,9 +48,10 @@ const EnhancedServicesSection = () => {
       description: 'Professional PRO services Dubai with expert government liaison UAE for seamless document clearing and approvals',
       features: ['Government Relations', 'Document Clearing Dubai', 'Corporate PRO Solutions', 'Company Approvals UAE'],
       category: 'formation',
-      price: 'From AED 2,000',
+      valueProposition: 'Free Consultation',
       duration: '3-7 days',
-      popularity: null
+      popularity: null,
+      urgency: 'Same-day approval available'
     },
     {
       icon: PiggyBank,
@@ -56,9 +59,10 @@ const EnhancedServicesSection = () => {
       description: 'UAE bank account for business setup with expert assistance for Dubai business account opening and banking solutions',
       features: ['Business Banking UAE', 'Account Opening Support', 'Banking Documentation', 'Multi-Currency Accounts'],
       category: 'formation',
-      price: 'From AED 1,500',
+      valueProposition: 'Guaranteed Approval',
       duration: '5-10 days',
-      popularity: null
+      popularity: null,
+      urgency: '100% success rate'
     },
     {
       icon: Calculator,
@@ -66,9 +70,10 @@ const EnhancedServicesSection = () => {
       description: 'Complete VAT registration UAE and tax compliance services including FTA VAT registration and consultancy',
       features: ['VAT Registration UAE', 'Tax Compliance', 'FTA Registration', 'VAT Consultancy Dubai'],
       category: 'compliance',
-      price: 'From AED 2,500',
+      valueProposition: 'Tailored Solution',
       duration: '5-7 days',
-      popularity: null
+      popularity: null,
+      urgency: 'Avoid penalties - Start today'
     },
     {
       icon: FileText,
@@ -76,9 +81,10 @@ const EnhancedServicesSection = () => {
       description: 'Professional accounting services UAE for SMEs and startups with comprehensive bookkeeping Dubai solutions',
       features: ['SME Accounting UAE', 'Startup Accounting Dubai', 'Financial Reporting UAE', 'Monthly Bookkeeping'],
       category: 'compliance',
-      price: 'From AED 1,200/month',
+      valueProposition: 'Monthly Packages',
       duration: 'Ongoing',
-      popularity: null
+      popularity: null,
+      urgency: 'First month 50% off'
     },
     {
       icon: Award,
@@ -86,9 +92,10 @@ const EnhancedServicesSection = () => {
       description: 'Expert Dubai business license services including UAE license renewal and trade license issuance',
       features: ['Trade License Renewal', 'Dubai License Services', 'Commercial License UAE', 'License Modifications'],
       category: 'compliance',
-      price: 'From AED 800',
+      valueProposition: 'Express Service',
       duration: '2-5 days',
-      popularity: null
+      popularity: null,
+      urgency: 'Avoid late fees'
     },
     {
       icon: Users,
@@ -96,9 +103,10 @@ const EnhancedServicesSection = () => {
       description: 'Complete UAE visa processing including Dubai residence visa, business visa UAE and employment visa services',
       features: ['Employment Visa UAE', 'Family Visa Services', 'Business Visa Processing', 'Residence Visa Dubai'],
       category: 'immigration',
-      price: 'From AED 3,000',
+      valueProposition: 'Premium Package',
       duration: '10-21 days',
-      popularity: 'High Demand'
+      popularity: 'High Demand',
+      urgency: 'Processing quota filling fast'
     },
     {
       icon: Shield,
@@ -106,9 +114,10 @@ const EnhancedServicesSection = () => {
       description: 'Professional document clearing Dubai and UAE document attestation with legal translation services',
       features: ['Document Attestation UAE', 'Legal Translation Dubai', 'Certificate Attestation', 'Notarization Services'],
       category: 'immigration',
-      price: 'From AED 500',
+      valueProposition: 'Fast Track',
       duration: '3-7 days',
-      popularity: null
+      popularity: null,
+      urgency: 'Same-day service available'
     },
     {
       icon: Briefcase,
@@ -116,9 +125,10 @@ const EnhancedServicesSection = () => {
       description: 'Expert UAE market entry consulting and feasibility study Dubai services for successful business ventures',
       features: ['UAE Market Entry Strategy', 'Feasibility Study Dubai', 'Investment Advisory', 'Business Planning'],
       category: 'strategic',
-      price: 'From AED 5,000',
+      valueProposition: 'Comprehensive Analysis',
       duration: '2-4 weeks',
-      popularity: null
+      popularity: null,
+      urgency: 'Q4 booking bonus available'
     },
     {
       icon: TrendingUp,
@@ -126,9 +136,10 @@ const EnhancedServicesSection = () => {
       description: 'Professional corporate governance UAE and compliance advisory Dubai for regulatory adherence',
       features: ['Corporate Governance UAE', 'Compliance Advisory', 'Business Regulations', 'Risk Management'],
       category: 'strategic',
-      price: 'From AED 3,500',
+      valueProposition: 'Risk Assessment',
       duration: '1-2 weeks',
-      popularity: null
+      popularity: null,
+      urgency: 'New regulations coming - Act now'
     }
   ];
 
@@ -164,16 +175,19 @@ const EnhancedServicesSection = () => {
         {service.description}
       </p>
 
-      {/* Service Details */}
-      <div className="grid grid-cols-2 gap-4 mb-6 text-sm">
-        <div className="flex items-center">
-          <span className="text-muted-foreground">Price:</span>
-          <span className="ml-2 font-semibold text-secondary">{service.price}</span>
+      {/* Value Proposition & Duration */}
+      <div className="space-y-4 mb-6">
+        <div className="flex items-center justify-between p-3 bg-secondary/10 rounded-xl border border-secondary/20">
+          <span className="text-secondary font-bold text-lg">{service.valueProposition}</span>
+          <Badge className="bg-secondary text-secondary-foreground text-xs px-2 py-1">
+            {service.duration}
+          </Badge>
         </div>
-        <div className="flex items-center">
-          <span className="text-muted-foreground">Duration:</span>
-          <span className="ml-2 font-semibold text-foreground">{service.duration}</span>
-        </div>
+        {service.urgency && (
+          <div className="text-center p-2 bg-gradient-gold/20 rounded-lg">
+            <span className="text-sm font-semibold text-foreground">⚡ {service.urgency}</span>
+          </div>
+        )}
       </div>
 
       {/* Features List */}
@@ -186,14 +200,23 @@ const EnhancedServicesSection = () => {
         ))}
       </ul>
 
-      {/* CTA Button */}
-      <Button 
-        className="w-full group-hover:bg-gradient-gold group-hover:text-primary-foreground group-hover:border-secondary transition-all duration-500 ripple-effect font-semibold hover:scale-105"
-        onClick={() => window.location.href = '/services'}
-      >
-        Learn More
-        <ChevronRight className="ml-2 h-4 w-4 group-hover:translate-x-2 transition-transform" />
-      </Button>
+      {/* CTA Buttons */}
+      <div className="space-y-3">
+        <Button 
+          className="w-full bg-gradient-gold hover:bg-gradient-gold/90 text-primary-foreground transition-all duration-500 ripple-effect font-bold hover:scale-105 py-3"
+          onClick={() => window.location.href = '/contact'}
+        >
+          Get Free Quote
+          <ChevronRight className="ml-2 h-4 w-4 group-hover:translate-x-2 transition-transform" />
+        </Button>
+        <Button 
+          variant="outline"
+          className="w-full border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 font-semibold"
+          onClick={() => window.location.href = '/services'}
+        >
+          Learn More
+        </Button>
+      </div>
 
       {/* Hover Effect Overlay */}
       <div className={`absolute inset-0 bg-gradient-to-br from-${service.category === 'formation' || service.category === 'immigration' ? 'primary' : 'secondary'}/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl`}></div>
