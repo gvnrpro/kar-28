@@ -1,39 +1,26 @@
-import { useState, useEffect, useRef } from 'react';
-import { animate } from 'framer-motion';
+import { useState, useEffect } from 'react';
 
-export const useAnimatedCounter = (target: number, duration: number = 2) => {
+export const useAnimatedCounter = (target: number, isInView: boolean, duration: number = 2000) => {
   const [count, setCount] = useState(0);
-  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const element = ref.current;
-    if (!element) return;
+    if (isInView) {
+      let start = 0;
+      const increment = target / (duration / 16); // 16ms is approx 1 frame at 60fps
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          const controls = animate(0, target, {
-            duration: duration,
-            ease: "easeOut",
-            onUpdate(value) {
-              setCount(Math.round(value));
-            }
-          });
-          // Stop observing after animation starts to prevent re-triggering
-          observer.disconnect();
-          
-          return () => controls.stop();
+      const timer = setInterval(() => {
+        start += increment;
+        if (start >= target) {
+          setCount(target);
+          clearInterval(timer);
+        } else {
+          setCount(Math.ceil(start));
         }
-      },
-      { threshold: 0.1 }
-    );
+      }, 16);
 
-    observer.observe(element);
+      return () => clearInterval(timer);
+    }
+  }, [target, isInView, duration]);
 
-    return () => {
-      observer.unobserve(element);
-    };
-  }, [target, duration]);
-
-  return { count, ref };
+  return count;
 };
