@@ -4,7 +4,7 @@ export const CONTACT_INFO = {
     name: 'KAR Business Services',
     tagline: 'Your Trusted Partner for Business Solutions in Dubai',
     description: 'With over 30 years of expertise, KAR Business Services is your premier partner for business setup, PRO services, Golden Visa processing, and legal services in Dubai and UAE.',
-    established: '1993'
+    established: '1992'
   },
   
   contact: {
@@ -14,8 +14,8 @@ export const CONTACT_INFO = {
       whatsapp: '+97142698181'
     },
     email: {
-      primary: 'info@karuae.com',
-      support: 'support@karuae.com'
+      primary: 'ask@karuae.com',
+      support: 'ask@karuae.com'
     },
     address: {
       street: '11 34A St',
