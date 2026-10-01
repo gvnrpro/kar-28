@@ -49,8 +49,8 @@ const Footer = () => {
     {
       icon: Mail,
       title: 'Email Us',
-      content: 'info@karuae.com',
-      link: 'mailto:info@karuae.com'
+      content: 'ask@karuae.com',
+      link: 'mailto:ask@karuae.com'
     },
     {
       icon: Clock,
@@ -232,7 +232,7 @@ const Footer = () => {
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 text-sm">
             <div className="text-white/60 text-center md:text-left">
-              © 2024 KAR Business Services. All rights reserved. Established 1992.
+              © 2026 KAR Business Services. All rights reserved. Established 1992.
             </div>
             <div className="flex flex-wrap items-center justify-center md:justify-end space-x-4 text-white/60 text-xs">
               <span className="flex items-center space-x-1">
